@@ -2,7 +2,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!**/src/main/webapp/META-INF/context.xml
+/src/main/webapp/META-INF/context.xml
+!**/src/main/webapp/WEB-INF/lib/
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

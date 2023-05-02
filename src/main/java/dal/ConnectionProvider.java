@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class ConnectionProvider {
 	private static DataSource ds;
-//commentaire
+
 	static {
 		try {
 			Context context = new InitialContext();

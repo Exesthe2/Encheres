@@ -2,13 +2,12 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!**/src/main/webapp/META-INF/context.xml
+/src/main/webapp/META-INF/context.xml
+/src/main/webapp/WEB-INF/lib/
+/pom.xml
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/*
 *.iws
 *.iml
 *.ipr

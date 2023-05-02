@@ -15,5 +15,7 @@
 <c:if test="${ !empty sessionScope.user && !empty sessionScope.isConnected }">
     <p>Vous êtes ${ sessionScope.user } ${ sessionScope.isConnected } !</p>
 </c:if>
+
+<a href="<%=request.getContextPath() %>/ServletLogin">modif</a>
 </body>
 </html>

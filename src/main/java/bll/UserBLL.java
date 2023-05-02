@@ -15,4 +15,5 @@ public class UserBLL {
     public Users loginBLL(String emailOrPseudo, String password) {
         return dao.login(emailOrPseudo, password);
     }
+    public Users View(int id) { return dao.View(id); }
 }

@@ -39,7 +39,7 @@ public class ServletLogin extends HttpServlet {
             System.out.println("if bll!=null : " + bll + " / " + user);
 
             HttpSession session = request.getSession();
-            session.setAttribute("user", user);
+            session.setAttribute("id", user.getNo_utilisateur());
             session.setAttribute("isConnected", true);
 
 

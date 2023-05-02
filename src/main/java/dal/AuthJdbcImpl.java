@@ -10,6 +10,7 @@ import java.sql.SQLException;
 public class AuthJdbcImpl implements AuthDAO {
 
     private static final String LOGIN = "SELECT * FROM UTILISATEURS WHERE (email = ? OR pseudo= ?) AND mot_de_passe = ?;";
+    private static final String VIEW = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
 
     @Override
     public Users login(String emailOrPseudo, String password) {
@@ -39,6 +40,34 @@ public class AuthJdbcImpl implements AuthDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public Users View(int id) {
+        Users user = null;
+        try (Connection cnx = ConnectionProvider.getConnection();) {
+            PreparedStatement ps = cnx.prepareStatement(LOGIN);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                System.out.println("View");
+                user = new Users(
+                        rs.getInt("no_utilisateur"),
+                        rs.getString("pseudo"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("telephone"),
+                        rs.getString("rue"),
+                        rs.getString("code_postal"),
+                        rs.getString("ville"),
+                        rs.getInt("credit"),
+                        rs.getInt("administrateur"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return user;
     }

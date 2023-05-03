@@ -29,7 +29,6 @@ public class ServletRegister extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String redirection = "Register.jsp";
 
-        if (request.getParameter("submit").equals("create")) {
             String pseudo = request.getParameter("pseudo");
             String firstname = request.getParameter("firstname");
             String lastname = request.getParameter("lastname");
@@ -81,13 +80,6 @@ public class ServletRegister extends HttpServlet {
                 request.setAttribute("error", "Une erreur c'est produite. Veuillez re-essayer.");
             }
             request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
-        }
-        ;
-
-        if (request.getParameter("submit").equals("cancel")) {
-            redirection = "Login.jsp";
-            request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
-        }
     }
 
     @Override

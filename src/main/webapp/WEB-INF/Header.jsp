@@ -11,7 +11,7 @@
                     <a href="<%=request.getContextPath()%>/">Vendre un article</a>
                     <a href="<%=request.getContextPath()%>/">Enchères</a>
                     <a href="<%=request.getContextPath()%>/ServletProfile">Mon profil</a>
-                    <a href="<%=request.getContextPath()%>/">Deconnexion</a>
+                    <a href="<%=request.getContextPath()%>/ServletLogout">Deconnexion</a>
                 </div>
             </c:when>
 

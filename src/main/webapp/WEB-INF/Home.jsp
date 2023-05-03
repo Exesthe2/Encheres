@@ -17,5 +17,6 @@
 </c:if>
 
 <a href="<%=request.getContextPath() %>/ServletLogin">modif</a>
+<a href="<%=request.getContextPath() %>/ServletProfile">Profil</a>
 </body>
 </html>

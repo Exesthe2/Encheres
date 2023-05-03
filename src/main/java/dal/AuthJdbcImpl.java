@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class AuthJdbcImpl implements AuthDAO {
 
     private static final String LOGIN = "SELECT * FROM UTILISATEURS WHERE (email = ? OR pseudo= ?) AND mot_de_passe = ?;";
-    private static final String VIEW = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
+    private static final String SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
 
     @Override
     public Users login(String emailOrPseudo, String password) {
@@ -35,6 +35,7 @@ public class AuthJdbcImpl implements AuthDAO {
                         rs.getString("rue"),
                         rs.getString("code_postal"),
                         rs.getString("ville"),
+                        rs.getString("mot_de_passe"),
                         rs.getInt("credit"),
                         rs.getInt("administrateur"));
             }
@@ -45,10 +46,10 @@ public class AuthJdbcImpl implements AuthDAO {
     }
 
     @Override
-    public Users View(int id) {
+    public Users SelectById(int id) {
         Users user = null;
         try (Connection cnx = ConnectionProvider.getConnection();) {
-            PreparedStatement ps = cnx.prepareStatement(LOGIN);
+            PreparedStatement ps = cnx.prepareStatement(SELECTBYID);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -63,6 +64,7 @@ public class AuthJdbcImpl implements AuthDAO {
                         rs.getString("rue"),
                         rs.getString("code_postal"),
                         rs.getString("ville"),
+                        rs.getString("mot_de_passe"),
                         rs.getInt("credit"),
                         rs.getInt("administrateur"));
             }

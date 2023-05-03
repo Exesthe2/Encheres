@@ -34,7 +34,7 @@ public class ServletLogin extends HttpServlet {
         try {
             user = bll.loginBLL(emailOrPseudo, password);
         } catch (BLLException e) {
-            request.setAttribute("BLLException", e.getErreurs());
+            throw new RuntimeException(e);
         }
         if (user != null) {
             HttpSession session = request.getSession();

@@ -1,0 +1,9 @@
+.error p {
+    padding: 10px;
+    background-color: lightcoral;
+    color: red;
+}
+
+body {
+    background-color: aqua;
+}

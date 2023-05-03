@@ -49,6 +49,7 @@
 
 		<button type="submit">Login</button>
 	</form>
+	<a href="<%=request.getContextPath()%>/ServletRegister">Créer un compte</a>
 </div>
 </body>
 </html>

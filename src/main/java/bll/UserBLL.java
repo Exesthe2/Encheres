@@ -12,7 +12,7 @@ public class UserBLL {
         dao = DAOFactory.getAuthDAO();
     }
 
-    public Users loginBLL(String emailOrPseudo, String password) {
+    public Users loginBLL(String emailOrPseudo, String password) throws BLLException {
         return dao.login(emailOrPseudo, password);
     }
 }

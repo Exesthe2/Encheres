@@ -16,4 +16,6 @@ public class UserBLL {
         return dao.login(emailOrPseudo, password);
     }
     public Users SelectById(int id) { return dao.SelectById(id); }
+
+    public void DeleteUser(int id){dao.DeleteUser(id);}
 }

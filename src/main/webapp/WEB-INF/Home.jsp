@@ -1,3 +1,4 @@
+<%@ page import="bo.Users" %>
 <%--
   Created by IntelliJ IDEA.
   User: exesthef
@@ -6,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<% Users user = (Users) session.getAttribute("user"); %>
 <html>
 <head>
     <title>Accueil</title>
@@ -17,6 +19,6 @@
 </c:if>
 
 <a href="<%=request.getContextPath() %>/ServletLogin">modif</a>
-<a href="<%=request.getContextPath() %>/ServletProfile">Profil</a>
+<a href="<%=request.getContextPath() %>/ServletProfile?id=<%=user.getNo_utilisateur()%>">Profil</a>
 </body>
 </html>

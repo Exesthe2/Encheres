@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% Users user = (Users) session.getAttribute("user"); %>
+<% Users otherUser = (Users) request.getAttribute("user"); %>
+<% Users ViewUser; %>
 <html>
 <head>
     <title>Profile</title>
@@ -16,17 +18,28 @@
 
 <body>
 <div>
-    <p>Pseudo : <%=user.getPseudo()%></p>
-    <p>Nom :  <%=user.getNom()%></p>
-    <p>Prénom : <%=user.getPrenom()%></p>
-    <p>Email : <%=user.getEmail()%></p>
-    <p>Telephone : <%=user.getTelephone()%></p>
-    <p>Rue : <%=user.getTelephone()%></p>
-    <p>Code Postal : <%=user.getCode_postal()%></p>
-    <p>Ville : <%=user.getVille()%></p>
-    <form action="ViewProfile.jsp" method="post">
+    <% if(otherUser == null){
+        ViewUser = user;
+    }
+    else{
+        ViewUser = otherUser;
+    }%>
+    <p>Pseudo : <%=ViewUser.getPseudo()%></p>
+    <p>Nom :  <%=ViewUser.getNom()%></p>
+    <p>Prénom : <%=ViewUser.getPrenom()%></p>
+    <p>Email : <%=ViewUser.getEmail()%></p>
+    <p>Telephone : <%=ViewUser.getTelephone()%></p>
+    <p>Rue : <%=ViewUser.getTelephone()%></p>
+    <p>Code Postal : <%=ViewUser.getCode_postal()%></p>
+    <p>Ville : <%=ViewUser.getVille()%></p>
+
+    <% if(ViewUser.getNo_utilisateur() == user.getNo_utilisateur()){%>
+    <form action="<%= request.getContextPath() %>/ServletProfile" method="post">
         <button type="submit">Modifier</button>
     </form>
+    <%}%>
+
+
 </div>
 </body>
 </html>

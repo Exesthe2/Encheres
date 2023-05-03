@@ -2,6 +2,7 @@ package dal;
 
 import bo.Users;
 
+import javax.servlet.http.HttpSession;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +12,7 @@ public class AuthJdbcImpl implements AuthDAO {
 
     private static final String LOGIN = "SELECT * FROM UTILISATEURS WHERE (email = ? OR pseudo= ?) AND mot_de_passe = ?;";
     private static final String SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
+    private static final String DELETEUSER = "DELETE * FROM UTILISATEURS WHERE no_utilisateur = ?;";
 
     @Override
     public Users login(String emailOrPseudo, String password) {
@@ -34,7 +36,6 @@ public class AuthJdbcImpl implements AuthDAO {
                         rs.getString("rue"),
                         rs.getString("code_postal"),
                         rs.getString("ville"),
-                        rs.getString("mot_de_passe"),
                         rs.getInt("credit"),
                         rs.getInt("administrateur"));
             }
@@ -71,5 +72,16 @@ public class AuthJdbcImpl implements AuthDAO {
             throw new RuntimeException(e);
         }
         return user;
+    }
+
+    @Override
+    public void DeleteUser(int id) {
+        try(Connection cnx = ConnectionProvider.getConnection();){
+            PreparedStatement ps = cnx.prepareStatement(DELETEUSER);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

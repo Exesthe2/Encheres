@@ -24,7 +24,6 @@ public class AuthJdbcImpl implements AuthDAO {
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println("login sql : ");
                 user = new Users(
                         rs.getInt("no_utilisateur"),
                         rs.getString("pseudo"),

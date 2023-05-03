@@ -1,5 +1,6 @@
 package com.encheres.encheres;
 
+import bll.BLLException;
 import bll.UserBLL;
 import bo.Users;
 
@@ -24,27 +25,27 @@ public class ServletLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String redirection = "Login.jsp";
+
+        // Keep email/pseudo and password in form.
         String emailOrPseudo = request.getParameter("emailOrPseudo");
         String password = request.getParameter("password");
 
-        if (emailOrPseudo != null && !emailOrPseudo.isBlank() && password != null && !password.isBlank()) {
+        try {
             user = bll.loginBLL(emailOrPseudo, password);
-            //System.out.println("bll : "+ bll);
-        } else {
-            //System.out.println("else : ");
-            request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
-            // Ajouter message d'erreur.
+        } catch (BLLException e) {
+            request.setAttribute("BLLException", e.getErreurs());
         }
-        if (bll != null) {
-            System.out.println("if bll!=null : " + bll + " / " + user);
-
+        if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("isConnected", true);
+            redirection = "Home.jsp";
+        } else if (user == null) {
+            request.setAttribute("error", "Email/Pseudo ou mot de passe incorect.");
 
-
-            request.getRequestDispatcher("/WEB-INF/Home.jsp").forward(request, response);
         }
+        request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
     }
 
     @Override

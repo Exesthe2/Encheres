@@ -1,7 +1,7 @@
 package com.encheres.encheres;
 
-import bll.ArticleBLL;
 import bll.BLLException;
+import bll.ArticleBLL;
 import bll.CategorieBLL;
 import bll.RetraitBLL;
 import bo.Article;
@@ -28,7 +28,12 @@ public class ServletArticle extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Categorie> categories = categorieBLL.selectAll();
+        List<Categorie> categories = null;
+        try {
+            categories = categorieBLL.selectAll();
+        } catch (BLLException e) {
+            throw new RuntimeException(e);
+        }
         request.setAttribute("categories", categories);
         request.getRequestDispatcher("/WEB-INF/Sell.jsp").forward(request, response);
     }

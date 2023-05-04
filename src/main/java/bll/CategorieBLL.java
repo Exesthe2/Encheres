@@ -14,7 +14,7 @@ public class CategorieBLL {
         dao = DAOFactory.getCategorieDAO();
     }
 
-    public List<Categorie> selectAll() {
+    public List<Categorie> selectAll() throws BLLException {
         return dao.selectAll();
     }
 }

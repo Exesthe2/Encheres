@@ -40,13 +40,11 @@ public class ServletLogin extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("isConnected", true);
-            redirection = "Home.jsp";
+            response.sendRedirect(request.getContextPath() + "/ServletAccueil");
         } else if (user == null) {
             request.setAttribute("error", "Email/Pseudo ou mot de passe incorect.");
-
+            request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
         }
-        response.sendRedirect(request.getContextPath() + "/ServletAccueil");
-//        request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
     }
 
     @Override

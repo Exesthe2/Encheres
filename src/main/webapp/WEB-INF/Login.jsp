@@ -8,7 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="style/style.css">
@@ -19,25 +18,6 @@
 <div class="error">
 	<c:if test="${!empty error}">
 		<p>${error}</p>
-	</c:if>
-
-	<c:if test="${!empty BLLException}">
-		<p>La BLLException est : ${BLLException}</p>
-		<div>
-			<strong>Erreur de saisie.</strong>
-			<ul>
-				<c:forEach var="code" items="${BLLException }">
-					<c:choose>
-						<c:when test="${code == 1 }">
-							<li>Le nom de la liste ne doit pas être vide.</li>
-						</c:when>
-						<c:when test="${code == 2 }">
-							<li>Le nom de l'article ne doit pas être vide.</li>
-						</c:when>
-					</c:choose>
-				</c:forEach>
-			</ul>
-		</div>
 	</c:if>
 </div>
 <div>

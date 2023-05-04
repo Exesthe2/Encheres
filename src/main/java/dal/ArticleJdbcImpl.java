@@ -4,12 +4,50 @@ import bo.Article;
 
 import java.sql.Types;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticleJdbcImpl implements ArticleDAO {
 
     private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, no_utilisateur, no_categorie, image) VALUES (?,?,?,?,?,?,?,?);";
     private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=? WHERE id=?;";
     private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE id=?;";
+    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND date_fin_enchere > NOW();";
+
+    @Override
+    public List<Article> getAllArticlesInProgress(String articleName, String categorie) {
+
+        List<Article> articles = new ArrayList<>();
+
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement ps = cnx.prepareStatement(SELECTALLARTICLESINPROGRESS);
+            ps.setString(1, "%" + articleName + "%");
+            ps.setString(2, "%" + categorie + "%");
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Article article = new Article(
+                        rs.getInt("no_article"),
+                        rs.getString("nom_article"),
+                        rs.getString("description"),
+                        LocalDateTime.of((rs.getDate("date_debut_enchere").toLocalDate()), rs.getTime("date_debut_enchere").toLocalTime()),
+                        LocalDateTime.of((rs.getDate("date_fin_enchere").toLocalDate()), rs.getTime("date_fin_enchere").toLocalTime()),
+                        rs.getInt("prix_initial"),
+                        rs.getInt("prix_vente"),
+                        rs.getInt("no_utilisateur"),
+                        rs.getInt("no_categorie"),
+                        rs.getString("etat_vente"),
+                        rs.getString("image")
+                );
+                articles.add(article);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return articles;
+    }
+
     @Override
     public void insert(Article article) {
         try (Connection cnx = ConnectionProvider.getConnection()) {

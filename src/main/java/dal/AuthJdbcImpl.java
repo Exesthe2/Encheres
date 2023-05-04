@@ -149,7 +149,7 @@ public class AuthJdbcImpl implements AuthDAO {
             throw new RuntimeException(e);
         }
     }
-}
+
     @Override
     public List<String> pseudosAndEmails() {
         List<String> pseudos = new ArrayList<>();

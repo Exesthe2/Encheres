@@ -6,10 +6,11 @@
     <div>
         <c:choose>
             <c:when test="${sessionScope.isConnected == true}">
+<%--                <% Users user = (Users) session.getAttribute("user"); %>--%>
                 <div>
                     <a href="<%=request.getContextPath()%>/ServletArticle">Vendre un article</a>
                     <a href="<%=request.getContextPath()%>/">Enchères</a>
-                    <a href="<%=request.getContextPath()%>/ServletProfile">Mon profil</a>
+                    <a href="<%=request.getContextPath() %>/ServletProfile?id=${sessionScope.user.no_utilisateur}">Mon profil</a>
                     <a href="<%=request.getContextPath()%>/ServletLogout">Deconnexion</a>
                 </div>
             </c:when>

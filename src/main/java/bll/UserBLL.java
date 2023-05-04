@@ -73,13 +73,14 @@ public class UserBLL {
 
     public boolean NewPassword(String password, String confirmation) throws BLLException {  // Verifie que le nouveau mot de passe est le même que dans le champs confirmation
         boolean acces = false;
-        if(password.equals(confirmation)){
+        if (password.equals(confirmation)) {
             acces = true;
-        }else{
+        } else {
             System.out.println("Le nouveau mot de passe et sa confirmation ne sont pas bon");
             throw new BLLException("Le nouveau mot de passe et sa confirmation ne sont pas bon");
         }
         return acces;
+    }
 
     public List<String> pseudosAndEmailsBLL() throws BLLException {
         return dao.pseudosAndEmails();

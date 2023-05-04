@@ -15,6 +15,7 @@
 	<title>Connexion</title>
 </head>
 <body>
+<%@include file="Header.jsp" %>
 <div class="error">
 	<c:if test="${!empty error}">
 		<p>${error}</p>

@@ -6,6 +6,7 @@
 <html>
 <head>
     <title>Accueil</title>
+    <style><%@include file="/WEB-INF/style/style.css"%></style>
 </head>
 <body>
 <h1>Liste des enchères</h1>

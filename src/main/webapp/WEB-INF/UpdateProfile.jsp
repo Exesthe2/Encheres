@@ -13,6 +13,11 @@
 </head>
 <body style="text-align: center">
 <h1>Mon Profil</h1>
+<div class="error">
+    <c:if test="${!empty errorMessage}">
+    <p>${errorMessage}</p>
+    </c:if>
+</div>
 <form  action="<%= request.getContextPath() %>/ServletUpdateProfile" method="get">
   <table style="padding-left: 25%">
       <tbody>

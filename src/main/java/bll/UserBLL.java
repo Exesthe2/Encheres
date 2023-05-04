@@ -15,4 +15,5 @@ public class UserBLL {
     public Users loginBLL(String emailOrPseudo, String password) throws BLLException {
         return dao.login(emailOrPseudo, password);
     }
+
 }

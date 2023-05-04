@@ -12,9 +12,7 @@ public class ArticleBLL {
         dao = DAOFactory.getArticleDAO();
     }
 
-    public void insert(Article article) {
-        dao.insert(article);
-    }
+    public void insert(Article article) {dao.insert(article);}
 
     public void update(Article article) {
         dao.update(article);

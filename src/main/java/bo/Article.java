@@ -19,8 +19,7 @@ public class Article {
     public Article() {
     }
 
-    public Article(int no_article, String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, int prixInitial, int prixVente, int no_utilisateur, int no_categorie, String etatVente, String image) {
-        this.no_article = no_article;
+    public Article(String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, int prixInitial, int prixVente, int no_utilisateur, int no_categorie, String etatVente, String image) {
         this.nom = nom;
         this.description = description;
         this.dateDebut = dateDebut;

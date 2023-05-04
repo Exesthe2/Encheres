@@ -15,7 +15,7 @@
     <form method="POST" action="<%=request.getContextPath()%>/ServletArticle">
         Article : <input type="text" name="article">
         Description : <textarea name="description"></textarea>
-        Categorie : <select>
+        Categorie : <select name="categorie">
             <option value="" disabled selected></option>
             <c:forEach items="${categories}" var="categorie" >
                 <option value="<c:out value="${categorie.getNo_categorie()}"/>"><c:out value="${categorie.getLibelle()}"/></option>
@@ -29,9 +29,9 @@
             <tr>
                 <td>
                     <div>
-                        Rue : <input type="text">
-                        Code postal : <input type="number">
-                        Ville : <input type="text">
+                        Rue : <input type="text" name="rue">
+                        Code postal : <input type="number" name="codePostal">
+                        Ville : <input type="text" name="ville">
                     </div>
                 </td>
             </tr>

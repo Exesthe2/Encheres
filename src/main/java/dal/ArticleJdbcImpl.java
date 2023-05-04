@@ -6,9 +6,9 @@ import java.sql.*;
 
 public class ArticleJdbcImpl implements ArticleDAO {
 
-    private static final String INSERT = "INSERT INTO ARTICLES_VENDU (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image,) VALUES (?,?,?,?,?,?,?,?,?,?);";
-    private static final String UPDATE = "UPDATE ARTICLES SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=?, WHERE id=?;";
-    private static final String DELETE = "DELETE FROM ARTICLES WHERE id=?;";
+    private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente, image) VALUES (?,?,?,?,?,?,?,?,?,?);";
+    private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=? WHERE id=?;";
+    private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE id=?;";
     @Override
     public void insert(Article article) {
         try (Connection cnx = ConnectionProvider.getConnection()) {

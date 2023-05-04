@@ -19,6 +19,7 @@
 
         <label>Catégories :</label>
         <select name="categorie">
+            <option value="" selected></option>
             <c:forEach var="categorie" items="${categories}">
                 <option value="${categorie.no_categorie}">${categorie.libelle}</option>
             </c:forEach>

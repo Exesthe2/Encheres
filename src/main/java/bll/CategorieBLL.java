@@ -18,7 +18,7 @@ public class CategorieBLL {
         return dao.selectById(id);
     }
 
-    public List<Categorie> selectAll() {
+    public List<Categorie> selectAll() throws BLLException {
         return dao.selectAll();
     }
 }

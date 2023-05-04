@@ -14,6 +14,9 @@ public class Users {
     private int credit;
     private int administrateur;
 
+    public Users() {
+    }
+
     public Users(int no_utilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String code_postal, String ville, int credit, int administrateur) {
         this.no_utilisateur = no_utilisateur;
         this.pseudo = pseudo;

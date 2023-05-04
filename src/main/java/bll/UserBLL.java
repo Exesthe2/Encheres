@@ -6,6 +6,7 @@ import dal.DAOFactory;
 
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.List;
 
 public class UserBLL {
 
@@ -79,5 +80,12 @@ public class UserBLL {
             throw new BLLException("Le nouveau mot de passe et sa confirmation ne sont pas bon");
         }
         return acces;
+
+    public List<String> pseudosAndEmailsBLL() throws BLLException {
+        return dao.pseudosAndEmails();
+    }
+
+    public Users newUserBLL(String pseudo, String firstname, String lastname, String phoneNumber, String postalCode, String street, String town, String email, String password, String confirmPassword) throws BLLException {
+        return dao.registerUser(pseudo, firstname, lastname, phoneNumber, postalCode, street, town, email, password, confirmPassword);
     }
 }

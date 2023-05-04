@@ -7,3 +7,8 @@
 body {
     background-color: aqua;
 }
+
+form {
+    display: flex;
+    flex-direction: column;
+}

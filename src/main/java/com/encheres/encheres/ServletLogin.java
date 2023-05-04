@@ -25,8 +25,6 @@ public class ServletLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String redirection = "Login.jsp";
-
         // Keep email/pseudo and password in form.
         String emailOrPseudo = request.getParameter("emailOrPseudo");
         String password = request.getParameter("password");
@@ -40,12 +38,11 @@ public class ServletLogin extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("isConnected", true);
-            redirection = "Home.jsp";
+            response.sendRedirect(request.getContextPath() + "/ServletAccueil");
         } else if (user == null) {
             request.setAttribute("error", "Email/Pseudo ou mot de passe incorect.");
-
+            request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
     }
 
     @Override

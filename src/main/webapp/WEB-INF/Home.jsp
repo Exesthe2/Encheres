@@ -13,6 +13,22 @@
 <a href="<%=request.getContextPath()%>/ServletArticle">Creation article</a>
 <a href="<%=request.getContextPath()%>/TestConnexionBDDServlet">Test connexion</a>
 
+<div class="filter">
+    <p>Filtres :</p>
+    <form action="<%= request.getContextPath() %>/ServletAccueil" method="get">
+        <label>Nom de l'article :</label>
+        <input type="text" name="articleName">
+
+        <label>Catégories :</label>
+        <select name="categorie">
+            <c:forEach var="categorie" items="${categories}">
+                <option value="${categorie.no_categorie}">${categorie.libelle}</option>
+            </c:forEach>
+        </select>
+
+        <button type="submit">Rechercher</button>
+    </form>
+</div>
 <div class="cards">
     <c:forEach var="article" items="${articles}">
         <div class="card">

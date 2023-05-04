@@ -13,7 +13,7 @@ public class ArticleJdbcImpl implements ArticleDAO {
     private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, no_utilisateur, no_categorie, image) VALUES (?,?,?,?,?,?,?,?);";
     private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=? WHERE id=?;";
     private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE id=?;";
-    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND date_fin_enchere > NOW();";
+    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND date_fin_enchere > GETDATE();";
 
     @Override
     public List<Article> getAllArticlesInProgress(String articleName, String categorie) {

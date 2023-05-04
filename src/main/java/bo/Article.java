@@ -32,6 +32,20 @@ public class Article {
         this.image = image;
     }
 
+    public Article(int no_article, String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente, String image) {
+        this.no_article = no_article;
+        this.nom = nom;
+        this.description = description;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.prixInitial = prixInitial;
+        this.prixVente = prixVente;
+        this.no_utilisateur = no_utilisateur;
+        this.no_categorie = no_categorie;
+        this.etatVente = etatVente;
+        this.image = image;
+    }
+
     public int getNo_article() {
         return no_article;
     }

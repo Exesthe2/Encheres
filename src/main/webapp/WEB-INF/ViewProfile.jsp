@@ -1,10 +1,4 @@
-<%@ page import="bo.Users" %><%--
-  Created by IntelliJ IDEA.
-  User: renau
-  Date: 02/05/2023
-  Time: 16:51
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="bo.Users" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% Users user = (Users) session.getAttribute("user"); %>
 <% Users otherUser = (Users) request.getAttribute("user"); %>
@@ -14,7 +8,7 @@
     <title>Profile</title>
 </head>
 
-<%--<%@include file="Header.jsp"%>--%>
+<%@include file="Header.jsp" %>
 
 <body>
 <div>

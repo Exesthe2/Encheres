@@ -15,9 +15,10 @@ public class ServletLogout extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         if (session != null) {
-            session.removeAttribute("user");
-            session.removeAttribute("isConnected");
+            session.invalidate();
+
         }
-        request.getRequestDispatcher("/WEB-INF/Home.jsp").forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/ServletAccueil");
+//        request.getRequestDispatcher("/WEB-INF/Home.jsp").forward(request, response);
     }
 }

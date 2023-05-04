@@ -37,7 +37,6 @@ public class ServletArticle extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if ("Enregistrer".equals(action)) {
-            String redirect = "Sell.jsp";
             String nomArticle = request.getParameter("article");
             String description = request.getParameter("description");
             // Test si les champs dates sont vides;
@@ -75,14 +74,13 @@ public class ServletArticle extends HttpServlet {
                 articleBLL.insert(article);
                 Retrait retrait = new Retrait(article.getNo_article(), rue, codePostal, ville);
                 retraitBLL.insert(retrait);
-                redirect = "Home.jsp";
+                response.sendRedirect(request.getContextPath() + "/ServletAccueil");
             } catch (BLLException e) {
                 request.setAttribute("error", e.getMessage());
+                response.sendRedirect(request.getContextPath() + "/ServletArticle");
             }
-
-            request.getRequestDispatcher("/WEB-INF/" + redirect).forward(request, response);
         } else {
-            request.getRequestDispatcher("/WEB-INF/Home.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/ServletAccueil");
         }
     }
 }

@@ -38,7 +38,6 @@ public void init() throws ServletException {
         String password = req.getParameter("Password");
         String newpassword = req.getParameter("NewPassword");
         String confirmation = req.getParameter("Confirmation");
-        System.out.println(newpassword + "le nouveau mot de passe");
         Users modifUser = new Users(id, pseudo, nom, prenom, email, telephone, rue, cp, ville, password);
         if (action.equals("supprimer")) {
             try {
@@ -53,7 +52,6 @@ public void init() throws ServletException {
         } else if (action.equals("enregistrer")) {
             if (newpassword.isBlank()) {  // cas si pas de nouveau mot de passe
                 try {
-                    System.out.println(user.toString());
                     Userbll.Update(modifUser, password);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);

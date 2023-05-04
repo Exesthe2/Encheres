@@ -22,7 +22,6 @@ public class UserBLL {
     public Users SelectById(int id) { return dao.SelectById(id); }
 
     public void DeleteUser(Users user, String password) throws  BLLException {
-        System.out.println(user.toString());
         int id = user.getNo_utilisateur();
         if (VerifPassword(id, password)) {
             dao.DeleteUser(id);
@@ -31,7 +30,6 @@ public class UserBLL {
 
     public void Update(Users user, String password) throws SQLException, BLLException  {
         if (DataNotNull(user)) {
-            System.out.println(user.toString());
             if (VerifPassword(user.getNo_utilisateur(), password)) {
                 dao.UpdateProfile(user);
             }
@@ -54,7 +52,6 @@ public class UserBLL {
         if(password.equals(pass)){
             acces = true;
         }else{
-            System.out.println("Le mot de passe actuel n'est pas bon");
             throw new BLLException("Le mot de passe actuel n'est pas bon");
         }
         return acces;
@@ -64,7 +61,6 @@ public class UserBLL {
         boolean acces = true;
         if (user.getNom().isEmpty() || user.getPrenom().isBlank() || user.getEmail().isBlank() || user.getTelephone().isBlank() || user.getRue().isBlank() || user.getCode_postal().isBlank() || user.getVille().isBlank()){
                 acces = false;
-                System.out.println("Tous les champs doivent être rempli");
                 throw new BLLException("Tous les champs doivent être rempli");
         }
 
@@ -76,7 +72,6 @@ public class UserBLL {
         if (password.equals(confirmation)) {
             acces = true;
         } else {
-            System.out.println("Le nouveau mot de passe et sa confirmation ne sont pas bon");
             throw new BLLException("Le nouveau mot de passe et sa confirmation ne sont pas bon");
         }
         return acces;

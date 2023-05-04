@@ -27,7 +27,7 @@ public class ServletRegister extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String redirection = "Register.jsp";
+        String redirection = "/ServletRegister";
 
             String pseudo = request.getParameter("pseudo");
             String firstname = request.getParameter("firstname");
@@ -49,18 +49,18 @@ public class ServletRegister extends HttpServlet {
             for (String item : pseudosAndEmails) {
                 if (item.equals(pseudo)) {
                     request.setAttribute("error", "Ce pseudo est déjà utilisé.");
-                    request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
+                    response.sendRedirect(request.getContextPath() + redirection);
                 }
                 if (item.equals(email)) {
                     request.setAttribute("error", "Cet adresse mail est déjà utilisé.");
-                    request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
+                    response.sendRedirect(request.getContextPath() + redirection);
                 }
             }
 
             // Check password
             if (!password.equals(confirmPassword)) {
                 request.setAttribute("error", "Votre mot de passe n'est pas correct.");
-                request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
+                response.sendRedirect(request.getContextPath() + redirection);
             }
 
             // Register user
@@ -79,7 +79,7 @@ public class ServletRegister extends HttpServlet {
             } else if (user == null) {
                 request.setAttribute("error", "Une erreur c'est produite. Veuillez re-essayer.");
             }
-            request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
+        response.sendRedirect(request.getContextPath() + redirection);
     }
 
     @Override

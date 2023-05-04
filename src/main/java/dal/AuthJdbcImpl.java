@@ -62,7 +62,6 @@ public class AuthJdbcImpl implements AuthDAO {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                System.out.println("View");
                 user = new Users(
                         rs.getInt("no_utilisateur"),
                         rs.getString("pseudo"),
@@ -194,7 +193,6 @@ public class AuthJdbcImpl implements AuthDAO {
                 id = rs.getInt(1);
             }
 
-            System.out.println(rs);
             user = new Users(
                     id,
                     pseudo,

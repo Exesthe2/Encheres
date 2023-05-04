@@ -45,7 +45,8 @@ public class ServletLogin extends HttpServlet {
             request.setAttribute("error", "Email/Pseudo ou mot de passe incorect.");
 
         }
-        request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/ServletAccueil");
+//        request.getRequestDispatcher("/WEB-INF/" + redirection).forward(request, response);
     }
 
     @Override

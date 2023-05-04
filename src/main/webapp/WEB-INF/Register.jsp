@@ -13,6 +13,7 @@
 	<title>Register</title>
 </head>
 <body>
+<%@include file="Header.jsp" %>
 <c:if test="${!empty error}">
 	<p>${error}</p>
 </c:if>

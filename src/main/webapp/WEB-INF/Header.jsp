@@ -1,7 +1,6 @@
 <%@ page import="bo.Users" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<% Users user = (Users) request.getAttribute("user"); %>
 <div>
     <a href="<%=request.getContextPath()%>/ServletAccueil">ENI-Enchères</a>
     <div>

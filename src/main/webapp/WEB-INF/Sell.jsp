@@ -12,6 +12,7 @@
     <title>Vendre un article</title>
 </head>
 <body>
+<%@include file="Header.jsp" %>
     <form method="POST" action="<%=request.getContextPath()%>/ServletArticle">
         Article* <input type="text" name="article">
         Description* <textarea name="description"></textarea>

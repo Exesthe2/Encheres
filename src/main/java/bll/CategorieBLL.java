@@ -14,10 +14,6 @@ public class CategorieBLL {
         dao = DAOFactory.getCategorieDAO();
     }
 
-    public Categorie selectByIdBLL(int id) {
-        return dao.selectById(id);
-    }
-
     public List<Categorie> selectAll() {
         return dao.selectAll();
     }

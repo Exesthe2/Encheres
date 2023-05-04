@@ -19,4 +19,8 @@ public class BLLException extends Exception {
     public List<Integer> getErreurs() {
         return codesErreurs;
     }
+
+    public BLLException(String message) {
+        super(message);
+    }
 }

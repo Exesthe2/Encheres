@@ -13,25 +13,24 @@
 </head>
 <body>
     <form method="POST" action="<%=request.getContextPath()%>/ServletArticle">
-        Article : <input type="text" name="article">
-        Description : <textarea name="description"></textarea>
-        Categorie : <select name="categorie">
-            <option value="" disabled selected></option>
+        Article* <input type="text" name="article">
+        Description* <textarea name="description"></textarea>
+        Categorie <select name="categorie">
             <c:forEach items="${categories}" var="categorie" >
                 <option value="<c:out value="${categorie.getNo_categorie()}"/>"><c:out value="${categorie.getLibelle()}"/></option>
             </c:forEach>
         </select>
-        Photo : <input type="image" name="image">
-        Mise à prix : <input type="number" min="0" name="prixInitial">
-        Debut de l'enchère : <input type="datetime-local" name="dateDepart">
-        Fin de l'enchère : <input type="datetime-local" name="dateFin">
+        Photo <input type="file" name="image" accept="image/png, image/jpeg">
+        Mise à prix <input type="number" min="0" name="prixInitial">
+        Debut de l'enchère* <input type="datetime-local" name="dateDebut">
+        Fin de l'enchère* <input type="datetime-local" name="dateFin">
         Retrait <table>
             <tr>
                 <td>
                     <div>
-                        Rue : <input type="text" name="rue">
-                        Code postal : <input type="number" name="codePostal">
-                        Ville : <input type="text" name="ville">
+                        Rue* <input type="text" name="rue">
+                        Code postal* <input type="text" name="codePostal">
+                        Ville* <input type="text" name="ville">
                     </div>
                 </td>
             </tr>
@@ -39,5 +38,8 @@
         <input type="submit" name="action" value="Enregistrer">
         <input type="submit" name="action" value="Annuler">
     </form>
+    <c:if test="${!empty error}">
+        <p>${error}</p>
+    </c:if>
 </body>
 </html>

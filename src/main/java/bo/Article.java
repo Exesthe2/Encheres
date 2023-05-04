@@ -9,8 +9,8 @@ public class Article {
     private String description;
     private LocalDateTime dateDebut;
     private LocalDateTime dateFin;
-    private int prixInitial;
-    private int prixVente;
+    private Integer prixInitial;
+    private Integer prixVente;
     private int no_utilisateur;
     private int no_categorie;
     private String etatVente;
@@ -19,7 +19,7 @@ public class Article {
     public Article() {
     }
 
-    public Article(String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, int prixInitial, int prixVente, int no_utilisateur, int no_categorie, String etatVente, String image) {
+    public Article(String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente, String image) {
         this.nom = nom;
         this.description = description;
         this.dateDebut = dateDebut;
@@ -72,19 +72,19 @@ public class Article {
         this.dateFin = dateFin;
     }
 
-    public int getPrixInitial() {
+    public Integer getPrixInitial() {
         return prixInitial;
     }
 
-    public void setPrixInitial(int prixInitial) {
+    public void setPrixInitial(Integer prixInitial) {
         this.prixInitial = prixInitial;
     }
 
-    public int getPrixVente() {
+    public Integer getPrixVente() {
         return prixVente;
     }
 
-    public void setPrixVente(int prixVente) {
+    public void setPrixVente(Integer prixVente) {
         this.prixVente = prixVente;
     }
 

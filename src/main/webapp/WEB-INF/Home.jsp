@@ -2,11 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <html>
 <head>
     <title>Accueil</title>
-    <style><%@include file="/WEB-INF/style/style.css"%></style>
 </head>
 <body>
 <h1>Liste des enchères</h1>
@@ -32,11 +30,15 @@
 <div class="cards">
     <c:forEach var="article" items="${articles}">
         <div class="card">
-            <img class="productImage" src="${article.image}">
             <div class="productInfos">
                 <a href="<%=request.getContextPath() %>/ServletUniqueEnchere?id=${article.no_article}">
-                <h3 class="productTitle">${article.nom}</h3></a>
-                <p class="productPrice">prix : ${article.prixInitial} crédits</p>
+                <h3 class="productTitle">${article.nom}</h3>
+                <c:if test="${article.enchere != null}">
+                    <p class="productPrice">Prix : ${article.enchere.montant_enchere} points</p>
+                </c:if>
+                <c:if test="${empty(article.enchere)}">
+                    <p class="productPrice">Prix : ${article.prixInitial} points</p>
+                </c:if>
                 <fmt:parseDate value="${article.dateFin}" pattern="yyyy-MM-dd'T'HH:mm" var="date_fin_enchere"/>
                 <fmt:formatDate value="${date_fin_enchere}" pattern="dd-MM-yyyy HH:mm" var="dateFin"/>
                 <p class="productEndDate">Fin de l'enchère : ${dateFin}</p>

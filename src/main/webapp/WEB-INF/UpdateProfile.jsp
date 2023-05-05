@@ -5,7 +5,7 @@
 <head>
     <title>Modifier son profil</title>
 </head>
-<body style="text-align: center">
+<body>
 <%@include file="Header.jsp" %>
 <h1>Mon Profil</h1>
 <div class="error">
@@ -14,7 +14,7 @@
     </c:if>
 </div>
 <form  action="<%= request.getContextPath() %>/ServletUpdateProfile" method="get">
-  <table style="padding-left: 25%">
+  <table>
       <tbody>
       <tr>
           <th><label>Pseudo : </label></th>

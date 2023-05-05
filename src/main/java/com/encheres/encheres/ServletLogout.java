@@ -19,6 +19,5 @@ public class ServletLogout extends HttpServlet {
 
         }
         response.sendRedirect(request.getContextPath() + "/ServletAccueil");
-//        request.getRequestDispatcher("/WEB-INF/Home.jsp").forward(request, response);
     }
 }

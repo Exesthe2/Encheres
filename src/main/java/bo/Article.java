@@ -14,25 +14,12 @@ public class Article {
     private int no_utilisateur;
     private int no_categorie;
     private String etatVente;
-    private String image;
+    private Enchere enchere;
 
     public Article() {
     }
 
-    public Article(String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente, String image) {
-        this.nom = nom;
-        this.description = description;
-        this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
-        this.prixInitial = prixInitial;
-        this.prixVente = prixVente;
-        this.no_utilisateur = no_utilisateur;
-        this.no_categorie = no_categorie;
-        this.etatVente = etatVente;
-        this.image = image;
-    }
-
-    public Article(int no_article, String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente, String image) {
+    public Article(int no_article, String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente, Enchere enchere) {
         this.no_article = no_article;
         this.nom = nom;
         this.description = description;
@@ -43,7 +30,40 @@ public class Article {
         this.no_utilisateur = no_utilisateur;
         this.no_categorie = no_categorie;
         this.etatVente = etatVente;
-        this.image = image;
+        this.enchere = enchere;
+    }
+
+    public Article(String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente) {
+        this.nom = nom;
+        this.description = description;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.prixInitial = prixInitial;
+        this.prixVente = prixVente;
+        this.no_utilisateur = no_utilisateur;
+        this.no_categorie = no_categorie;
+        this.etatVente = etatVente;
+    }
+
+    public Article(int no_article, String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente) {
+        this.no_article = no_article;
+        this.nom = nom;
+        this.description = description;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.prixInitial = prixInitial;
+        this.prixVente = prixVente;
+        this.no_utilisateur = no_utilisateur;
+        this.no_categorie = no_categorie;
+        this.etatVente = etatVente;
+    }
+
+    public Enchere getEnchere() {
+        return enchere;
+    }
+
+    public void setEnchere(Enchere enchere) {
+        this.enchere = enchere;
     }
 
     public int getNo_article() {
@@ -126,13 +146,6 @@ public class Article {
         this.etatVente = etatVente;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     @Override
     public String toString() {
@@ -147,7 +160,7 @@ public class Article {
                 ", no_utilisateur=" + no_utilisateur +
                 ", no_categorie=" + no_categorie +
                 ", etatVente='" + etatVente + '\'' +
-                ", image='" + image + '\'' +
+                ", enchere='" + enchere + '\'' +
                 '}';
     }
 }

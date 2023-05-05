@@ -1,9 +1,10 @@
 package dal;
 
 import bll.BLLException;
+import bll.EnchereBLL;
 import bo.Article;
+import bo.Enchere;
 
-import java.sql.Types;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,11 +12,14 @@ import java.util.List;
 
 public class ArticleJdbcImpl implements ArticleDAO {
 
-    private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, no_utilisateur, no_categorie, image) VALUES (?,?,?,?,?,?,?,?);";
-    private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=? WHERE id=?;";
-    private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE no_article=?;";
-    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND date_fin_enchere > NOW();";
+    private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?);";
+    private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=? WHERE id=?;";
+    private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE id=?;";
+    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND etat_vente = 'EC'";
     private static final String SELECTBYID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?;";
+
+    private EnchereBLL enchereBLL = new EnchereBLL();
+    private Enchere enchere;
 
     @Override
     public List<Article> getAllArticlesInProgress(String articleName, String categorie) {
@@ -39,12 +43,15 @@ public class ArticleJdbcImpl implements ArticleDAO {
                         rs.getInt("prix_vente"),
                         rs.getInt("no_utilisateur"),
                         rs.getInt("no_categorie"),
-                        rs.getString("etat_vente"),
-                        rs.getString("image")
+                        rs.getString("etat_vente")
                 );
+
+                int no_article = rs.getInt("no_article");
+                enchere = enchereBLL.selectByArticleId(no_article);
+                article.setEnchere(enchere);
                 articles.add(article);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | BLLException e) {
             throw new RuntimeException(e);
         }
         return articles;
@@ -61,7 +68,6 @@ public class ArticleJdbcImpl implements ArticleDAO {
             ps.setInt(5, article.getPrixInitial());
             ps.setInt(6, article.getNo_utilisateur());
             ps.setInt(7, article.getNo_categorie());
-            ps.setString(8, article.getImage());
             ps.executeUpdate();
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
@@ -86,7 +92,6 @@ public class ArticleJdbcImpl implements ArticleDAO {
             ps.setInt(7, article.getNo_utilisateur());
             ps.setInt(8, article.getNo_categorie());
             ps.setString(9, article.getEtatVente());
-            ps.setString(10, article.getImage());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

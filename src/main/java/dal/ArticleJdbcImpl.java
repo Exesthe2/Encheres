@@ -127,8 +127,7 @@ public class ArticleJdbcImpl implements ArticleDAO {
                         rs.getInt("prix_vente"),
                         rs.getInt("no_utilisateur"),
                         rs.getInt("no_categorie"),
-                        rs.getString("etat_vente"),
-                        rs.getString("image")
+                        rs.getString("etat_vente")
                 );
             }
             return article;

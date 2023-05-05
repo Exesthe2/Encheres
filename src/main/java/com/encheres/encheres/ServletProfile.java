@@ -32,16 +32,14 @@ public class ServletProfile extends HttpServlet {
         Users user =  (Users) request.getSession().getAttribute("user");
         int id = Integer.parseInt(request.getParameter("id"));
         if (connect == null && user == null) {
-            user = bll.SelectById(id);
-            request.setAttribute("user", user);
-            request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
-        }else if(Boolean.TRUE.equals(connect) && id == user.getNo_utilisateur()) {
             try {
                 user = bll.SelectById(id);
             } catch (BLLException e) {
                 throw new RuntimeException(e);
             }
             request.setAttribute("user", user);
+            request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
+        }else if(Boolean.TRUE.equals(connect) && id == user.getNo_utilisateur()) {
           request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
         }else{
             response.sendRedirect(request.getContextPath() + "/ServletAccueil");

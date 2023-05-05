@@ -31,7 +31,6 @@ public class ArticleBLL {
         LocalDateTime dateFin = article.getDateFin();
         Integer prixInitial = article.getPrixInitial();
         int no_categorie = article.getNo_categorie();
-        String image = article.getImage();
 
         if ("".equals(nom) || "".equals(description) || dateDebut == null || dateFin == null) {
             throw new BLLException("Un des champs obligatoires est vide");
@@ -53,11 +52,6 @@ public class ArticleBLL {
         }
         if (no_categorie < 0 || no_categorie > categories.size()) {
             throw new BLLException("le champ catégorie n'est pas correct");
-        }
-        if (image != null) {
-            if (image.length() > 150) {
-                throw new BLLException("Le nom de l'image ne doit pas dépasser 150 charactères");
-            }
         }
 
         dao.insert(article);

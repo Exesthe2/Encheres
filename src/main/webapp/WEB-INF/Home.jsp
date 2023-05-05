@@ -30,7 +30,6 @@
 <div class="cards">
     <c:forEach var="article" items="${articles}">
         <div class="card">
-            <img class="productImage" src="${article.image}">
             <div class="productInfos">
                 <h3 class="productTitle">${article.nom}</h3>
                 <c:if test="${article.enchere != null}">

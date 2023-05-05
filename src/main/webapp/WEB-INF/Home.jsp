@@ -31,6 +31,7 @@
     <c:forEach var="article" items="${articles}">
         <div class="card">
             <div class="productInfos">
+                <a href="<%=request.getContextPath() %>/ServletUniqueEnchere?id=${article.no_article}">
                 <h3 class="productTitle">${article.nom}</h3>
                 <c:if test="${article.enchere != null}">
                     <p class="productPrice">Prix : ${article.enchere.montant_enchere} points</p>

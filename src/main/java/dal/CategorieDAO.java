@@ -9,4 +9,6 @@ public interface CategorieDAO {
     Categorie selectById(int id);
 
     List<Categorie> selectAll();
+
+    String selectNomCategorie(int id);
 }

@@ -1,23 +1,28 @@
 <%@ page import="bo.Users" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% Users user = (Users) session.getAttribute("user"); %>
-<% Users otherUser = (Users) request.getAttribute("user"); %>
-<% Users ViewUser; %>
+<%
+    Users user = null;
+    Users otherUser = (Users) request.getAttribute("user");
+    Users ViewUser;
+%>
 <html>
 <head>
-    <title>Profile</title>
+    <title>Mon profil</title>
 </head>
 
 <%@include file="Header.jsp" %>
 
 <body>
 <div>
-    <% if(otherUser == null){
-        ViewUser = user;
-    }
-    else{
-        ViewUser = otherUser;
-    }%>
+    <%
+        if (otherUser == null) {
+            user = (Users) session.getAttribute("user");
+            ViewUser = user;
+        } else {
+            ViewUser = otherUser;
+        }
+    %>
+
     <p>Pseudo : <%=ViewUser.getPseudo()%></p>
     <p>Nom :  <%=ViewUser.getNom()%></p>
     <p>Prénom : <%=ViewUser.getPrenom()%></p>
@@ -27,12 +32,16 @@
     <p>Code Postal : <%=ViewUser.getCode_postal()%></p>
     <p>Ville : <%=ViewUser.getVille()%></p>
 
-    <% if(ViewUser.getNo_utilisateur() == user.getNo_utilisateur()){%>
-    <form action="<%= request.getContextPath() %>/ServletProfile" method="post">
-        <button type="submit">Modifier</button>
-    </form>
-    <%}%>
-
+    <% if (user != null) {
+            if (ViewUser.getNo_utilisateur() == user.getNo_utilisateur()) {
+    %>
+                <form action="<%=request.getContextPath()%>/ServletProfile" method="post">
+                    <button type="submit">Modifier</button>
+                </form>
+    <%
+            }
+        }
+    %>
 
 </div>
 </body>

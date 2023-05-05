@@ -10,7 +10,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-	<title>Register</title>
+	<title>Inscription</title>
 </head>
 <body>
 <%@include file="Header.jsp" %>

@@ -39,6 +39,7 @@ public void init() throws ServletException {
         String newpassword = req.getParameter("NewPassword");
         String confirmation = req.getParameter("Confirmation");
         Users modifUser = new Users(id, pseudo, nom, prenom, email, telephone, rue, cp, ville, password);
+
         if (action.equals("supprimer")) {
             try {
                 Userbll.DeleteUser(modifUser, password);
@@ -62,7 +63,6 @@ public void init() throws ServletException {
                 session.setAttribute("user", modifUser);
 
             } else{ // Cas si nouveau mot de passe
-
                 try {
                     Userbll.UpdateWithNewPassWord(modifUser, password, newpassword, confirmation);
                 } catch (BLLException e) {

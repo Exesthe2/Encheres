@@ -24,6 +24,28 @@
             </c:forEach>
         </select>
 
+        <c:if test="${isConnected == true}">
+            <label>Achats :</label>
+            <input type="checkbox" name="openAuctions" id="openAuctions" value="EC">
+            <label for="openAuctions">Enchères ouvertes</label>
+
+            <input type="checkbox" name="myAuctions" id="myAuctions">
+            <label for="myAuctions">Mes enchères</label>
+
+            <input type="checkbox" name="myAuctionsWin" id="myAuctionsWin">
+            <label for="myAuctionsWin">Mes enchères remportées</label>
+
+            <label>Ventes :</label>
+            <input type="checkbox" name="myCurrentSales" id="myCurrentSales">
+            <label for="myCurrentSales">Mes ventes en cours</label>
+
+            <input type="checkbox" name="mySalesNotStart" id="mySalesNotStart">
+            <label for="mySalesNotStart">Mes ventes non débutées</label>
+
+            <input type="checkbox" name="mySalesEnd" id="mySalesEnd">
+            <label for="mySalesEnd">Mes ventes terminées</label>
+        </c:if>
+
         <button type="submit">Rechercher</button>
     </form>
 </div>

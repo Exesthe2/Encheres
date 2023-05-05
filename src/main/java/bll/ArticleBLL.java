@@ -7,8 +7,6 @@ import dal.DAOFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -73,7 +71,6 @@ public class ArticleBLL {
 
     public List<Article> getAllArticlesWithFilters(HttpServletRequest request) throws BLLException {
 
-        // Non connecté
         String articleName = request.getParameter("articleName");
         String categorie = request.getParameter("categorie");
 
@@ -84,26 +81,38 @@ public class ArticleBLL {
             categorie = "";
         }
 
-        //Connecté
-        boolean openAuctions = Boolean.parseBoolean(request.getParameter("openAuctions"));
-        boolean myAuctions = Boolean.parseBoolean(request.getParameter("myAuctions"));
-        boolean myAuctionsWin = Boolean.parseBoolean(request.getParameter("myAuctionsWin"));
-
-        boolean myCurrentSales = Boolean.parseBoolean(request.getParameter("myCurrentSales"));
-        boolean mySalesNotStart = Boolean.parseBoolean(request.getParameter("mySalesNotStart"));
-        boolean mySalesEnd = Boolean.parseBoolean(request.getParameter("mySalesEnd"));
-
         HttpSession session = request.getSession();
         Object isConnected = session.getAttribute("isConnected");
+        request.setAttribute("isConnected", isConnected);
 
         List<Article> articles = null;
         if (isConnected == null) {
             articles = dao.getAllArticlesInProgress(articleName, categorie);
         } else if (isConnected != null) {
+            //Connecté
+            String openAuctions = request.getParameter("openAuctions");
+            String closeAuctions = "VD";
+            String createAuctions = "CR";
+
+            if (openAuctions == null) {
+                openAuctions = "EC";
+            } else if (openAuctions.equals("EC")) {
+                closeAuctions = "";
+                createAuctions = "";
+            }
+
+            //System.out.println();
+
+            boolean myAuctions = Boolean.parseBoolean(request.getParameter("myAuctions"));
+            boolean myAuctionsWin = Boolean.parseBoolean(request.getParameter("myAuctionsWin"));
+
+            boolean myCurrentSales = Boolean.parseBoolean(request.getParameter("myCurrentSales"));
+            boolean mySalesNotStart = Boolean.parseBoolean(request.getParameter("mySalesNotStart"));
+            boolean mySalesEnd = Boolean.parseBoolean(request.getParameter("mySalesEnd"));
+
             // Call methode pour utilisateur connecté.
-
+            articles = dao.getAllArticlesWithConnectedFilters(articleName, categorie, openAuctions, closeAuctions, createAuctions, myAuctions, myAuctionsWin, myCurrentSales, mySalesNotStart, mySalesEnd);
         }
-
         return articles;
     }
 }

@@ -11,12 +11,35 @@ import java.time.LocalDateTime;
 public class EnchereJdbcImpl implements EnchereDAO {
 
     private static final String SELECTBYID = "SELECT * FROM ENCHERES WHERE no_enchere = ?;";
+    private static final String SELECTBYARTICLEID = "SELECT * FROM ENCHERES WHERE no_article = 1 ORDER BY montant_enchere DESC  limit 1;";
 
     @Override
     public Enchere selectById(int id) {
         Enchere enchere = null;
         try (Connection cnx = ConnectionProvider.getConnection();) {
             PreparedStatement ps = cnx.prepareStatement(SELECTBYID);
+            ps.setInt(1, id);
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                enchere = new Enchere(
+                        rs.getInt("no_enchere"),
+                        rs.getInt("no_utilisateur"),
+                        rs.getInt("no_article"),
+                        LocalDateTime.of((rs.getDate("date_enchere").toLocalDate()), rs.getTime("date_enchere").toLocalTime()),
+                        rs.getInt("montant_enchere"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return enchere;
+    }
+
+    @Override
+    public Enchere selectByArticleId(int id) {
+        Enchere enchere = null;
+        try (Connection cnx = ConnectionProvider.getConnection();) {
+            PreparedStatement ps = cnx.prepareStatement(SELECTBYARTICLEID);
             ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();

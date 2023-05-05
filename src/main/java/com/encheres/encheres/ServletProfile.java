@@ -27,17 +27,18 @@ public class ServletProfile extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-       Boolean connect = (Boolean) request.getSession().getAttribute("isConnected");
+        Boolean connect = (Boolean) request.getSession().getAttribute("isConnected");
         Users user =  (Users) request.getSession().getAttribute("user");
         int id = Integer.parseInt(request.getParameter("id"));
-        if(connect && id == user.getNo_utilisateur()) {
+        if (connect == null && user == null) {
+            user = bll.SelectById(id);
+            request.setAttribute("user", user);
             request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
-        }else if(connect && id != user.getNo_utilisateur()) {
-          user = bll.SelectById(id);
-          request.setAttribute("user", user);
-          request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
-        }else{
+        } else if (Boolean.TRUE.equals(connect) && id == user.getNo_utilisateur()) {
+            request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
+        }
+        else {
             response.sendRedirect(request.getContextPath() + "/ServletAccueil");
         }
     }
-    }
+}

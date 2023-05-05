@@ -6,6 +6,7 @@ public class DAOFactory {
     private static CategorieDAO categorieDAO;
     private static RetraitDAO retraitDAO;
     private static EnchereDAO enchereDAO;
+    private static ImageDAO imageDAO;
 
     public static AuthDAO getAuthDAO() {
         if (authDAO == null) {
@@ -40,5 +41,12 @@ public class DAOFactory {
             enchereDAO = new EnchereJdbcImpl();
         }
         return enchereDAO;
+    }
+
+    public static ImageDAO getImageDAO() {
+        if (imageDAO == null) {
+            imageDAO = new ImageJdbcImpl();
+        }
+        return imageDAO;
     }
 }

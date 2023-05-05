@@ -106,4 +106,10 @@ public class ArticleBLL {
 
         return articles;
     }
+
+    public Article selectById(int id) throws BLLException{
+
+        Article article = dao.selectById(id);
+        return article;
+    }
 }

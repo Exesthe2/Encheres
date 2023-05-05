@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class EnchereJdbcImpl implements EnchereDAO {
 
     private static final String SELECTBYID = "SELECT * FROM ENCHERES WHERE no_enchere = ?;";
-    private static final String SELECTBYARTICLEID = "SELECT * FROM ENCHERES WHERE no_article = 1 ORDER BY montant_enchere DESC  limit 1;";
+    private static final String SELECTBYARTICLEID = "SELECT * FROM ENCHERES WHERE no_article = ? ORDER BY montant_enchere DESC  limit 1;";
 
     @Override
     public Enchere selectById(int id) {

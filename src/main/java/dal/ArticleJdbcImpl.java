@@ -1,5 +1,6 @@
 package dal;
 
+import bll.BLLException;
 import bo.Article;
 
 import java.sql.Types;
@@ -12,8 +13,9 @@ public class ArticleJdbcImpl implements ArticleDAO {
 
     private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, no_utilisateur, no_categorie, image) VALUES (?,?,?,?,?,?,?,?);";
     private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=? WHERE id=?;";
-    private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE id=?;";
-    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND date_fin_enchere > GETDATE();";
+    private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE no_article=?;";
+    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND date_fin_enchere > NOW();";
+    private static final String SELECTBYID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?;";
 
     @Override
     public List<Article> getAllArticlesInProgress(String articleName, String categorie) {
@@ -101,4 +103,33 @@ public class ArticleJdbcImpl implements ArticleDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public Article selectById(int id) throws BLLException {
+        Article article = null;
+        try (Connection cnx = ConnectionProvider.getConnection();) {
+            PreparedStatement ps = cnx.prepareStatement(SELECTBYID);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                article = new Article(
+                        rs.getInt("no_article"),
+                        rs.getString("nom_article"),
+                        rs.getString("description"),
+                        LocalDateTime.of((rs.getDate("date_debut_enchere").toLocalDate()), rs.getTime("date_debut_enchere").toLocalTime()),
+                        LocalDateTime.of((rs.getDate("date_fin_enchere").toLocalDate()), rs.getTime("date_fin_enchere").toLocalTime()),
+                        rs.getInt("prix_initial"),
+                        rs.getInt("prix_vente"),
+                        rs.getInt("no_utilisateur"),
+                        rs.getInt("no_categorie"),
+                        rs.getString("etat_vente"),
+                        rs.getString("image")
+                );
+            }
+            return article;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

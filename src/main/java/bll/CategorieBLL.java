@@ -17,4 +17,10 @@ public class CategorieBLL {
     public List<Categorie> selectAll() throws BLLException {
         return dao.selectAll();
     }
+
+    public String SelectCategorieByID(int id) throws BLLException{
+        String categorie;
+        categorie = dao.selectNomCategorie(id);
+        return categorie;
+    }
 }

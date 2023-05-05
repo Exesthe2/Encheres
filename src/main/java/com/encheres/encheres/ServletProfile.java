@@ -1,5 +1,6 @@
 package com.encheres.encheres;
 
+import bll.BLLException;
 import bll.UserBLL;
 import bo.Users;
 
@@ -33,8 +34,12 @@ public class ServletProfile extends HttpServlet {
         if(connect && id == user.getNo_utilisateur()) {
             request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
         }else if(connect && id != user.getNo_utilisateur()) {
-          user = bll.SelectById(id);
-          request.setAttribute("user", user);
+            try {
+                user = bll.SelectById(id);
+            } catch (BLLException e) {
+                throw new RuntimeException(e);
+            }
+            request.setAttribute("user", user);
           request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
         }else{
             response.sendRedirect(request.getContextPath() + "/ServletAccueil");

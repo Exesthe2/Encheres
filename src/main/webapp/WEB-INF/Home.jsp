@@ -34,7 +34,8 @@
         <div class="card">
             <img class="productImage" src="${article.image}">
             <div class="productInfos">
-                <h3 class="productTitle">${article.nom}</h3>
+                <a href="<%=request.getContextPath() %>/ServletUniqueEnchere?id=${article.no_article}">
+                <h3 class="productTitle">${article.nom}</h3></a>
                 <p class="productPrice">prix : ${article.prixInitial} crédits</p>
                 <fmt:parseDate value="${article.dateFin}" pattern="yyyy-MM-dd'T'HH:mm" var="date_fin_enchere"/>
                 <fmt:formatDate value="${date_fin_enchere}" pattern="dd-MM-yyyy HH:mm" var="dateFin"/>

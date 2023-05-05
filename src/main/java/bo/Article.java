@@ -15,8 +15,24 @@ public class Article {
     private int no_categorie;
     private String etatVente;
     private String image;
+    private Enchere enchere;
 
     public Article() {
+    }
+
+    public Article(int no_article, String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente, String image, Enchere enchere) {
+        this.no_article = no_article;
+        this.nom = nom;
+        this.description = description;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.prixInitial = prixInitial;
+        this.prixVente = prixVente;
+        this.no_utilisateur = no_utilisateur;
+        this.no_categorie = no_categorie;
+        this.etatVente = etatVente;
+        this.image = image;
+        this.enchere = enchere;
     }
 
     public Article(String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente, String image) {
@@ -44,6 +60,14 @@ public class Article {
         this.no_categorie = no_categorie;
         this.etatVente = etatVente;
         this.image = image;
+    }
+
+    public Enchere getEnchere() {
+        return enchere;
+    }
+
+    public void setEnchere(Enchere enchere) {
+        this.enchere = enchere;
     }
 
     public int getNo_article() {
@@ -148,6 +172,7 @@ public class Article {
                 ", no_categorie=" + no_categorie +
                 ", etatVente='" + etatVente + '\'' +
                 ", image='" + image + '\'' +
+                ", enchere='" + enchere + '\'' +
                 '}';
     }
 }

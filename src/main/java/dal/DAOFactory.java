@@ -5,6 +5,7 @@ public class DAOFactory {
     private static ArticleDAO articleDAO;
     private static CategorieDAO categorieDAO;
     private static RetraitDAO retraitDAO;
+    private static EnchereDAO enchereDAO;
 
     public static AuthDAO getAuthDAO() {
         if (authDAO == null) {
@@ -29,8 +30,15 @@ public class DAOFactory {
 
     public static RetraitDAO getRetraitDAO() {
         if (retraitDAO == null) {
-            retraitDAO  = new RetraitJdbcImpl();
+            retraitDAO = new RetraitJdbcImpl();
         }
         return retraitDAO;
+    }
+
+    public static EnchereDAO getEnchereDAO() {
+        if (enchereDAO == null) {
+            enchereDAO = new EnchereJdbcImpl();
+        }
+        return enchereDAO;
     }
 }

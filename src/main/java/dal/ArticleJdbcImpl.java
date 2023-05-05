@@ -1,8 +1,10 @@
 package dal;
 
+import bll.BLLException;
+import bll.EnchereBLL;
 import bo.Article;
+import bo.Enchere;
 
-import java.sql.Types;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +15,10 @@ public class ArticleJdbcImpl implements ArticleDAO {
     private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, no_utilisateur, no_categorie, image) VALUES (?,?,?,?,?,?,?,?);";
     private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=?, image=? WHERE id=?;";
     private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE id=?;";
-    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND date_fin_enchere > GETDATE();";
+    private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND etat_vente = 'EC'";
+
+    private EnchereBLL enchereBLL = new EnchereBLL();
+    private Enchere enchere;
 
     @Override
     public List<Article> getAllArticlesInProgress(String articleName, String categorie) {
@@ -40,9 +45,13 @@ public class ArticleJdbcImpl implements ArticleDAO {
                         rs.getString("etat_vente"),
                         rs.getString("image")
                 );
+
+                int no_article = rs.getInt("no_article");
+                enchere = enchereBLL.selectByArticleId(no_article);
+                article.setEnchere(enchere);
                 articles.add(article);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | BLLException e) {
             throw new RuntimeException(e);
         }
         return articles;

@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AuthJdbcImpl implements AuthDAO {
 
@@ -20,6 +22,8 @@ public class AuthJdbcImpl implements AuthDAO {
     private static final String UPDATEPROFILEWITHPASSWORD = "UPDATE UTILISATEURS SET nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur=?;";
     private static final String GETALLPSEUDOS = "SELECT pseudo, email FROM UTILISATEURS;";
     private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe,credit, administrateur) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+    private static final String updateArticleProcedure = "CALL updateArticle();";
 
 
     @Override
@@ -52,7 +56,6 @@ public class AuthJdbcImpl implements AuthDAO {
         }
         return user;
     }
-
 
     @Override
     public Users SelectById(int id) {
@@ -210,4 +213,31 @@ public class AuthJdbcImpl implements AuthDAO {
         }
         return user;
     }
+
+    @Override
+    public void auctionsTimer(String cancel) {
+        Timer t = new Timer();
+        if (cancel == null) {
+            t.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("Set Timer");
+
+                    try (Connection cnx = ConnectionProvider.getConnection();) {
+                        PreparedStatement ps = cnx.prepareStatement(updateArticleProcedure);
+                        ps.executeUpdate();
+                        ResultSet rs = ps.executeQuery();
+
+                        System.out.println("rs " + rs);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }, 1000, 60000);
+        }
+        if (cancel != null) {
+            t.cancel();
+        }
+    }
 }
+

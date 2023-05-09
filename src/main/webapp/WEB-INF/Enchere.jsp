@@ -69,8 +69,6 @@
         </tr>
     </form>
     <% } %>
-    <tr>
-    </tr>
     </tbody>
 </table>
 

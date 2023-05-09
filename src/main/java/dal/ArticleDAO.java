@@ -21,5 +21,7 @@ public interface ArticleDAO {
 
     Article selectById(int id) throws BLLException;
 
+    String canModify(int idArticle);
+
 
 }

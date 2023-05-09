@@ -2,20 +2,18 @@
 <%@ page import="bo.Enchere" %>
 <%@ page import="bo.Users" %>
 <%@ page import="bo.Retrait" %>
-<%@ page import="java.time.format.DateTimeFormatter" %><%--
-  Created by IntelliJ IDEA.
-  User: renau
-  Date: 05/05/2023
-  Time: 14:10
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% Article article = (Article) request.getAttribute("article");%>
-<% String Categorie = (String) request.getAttribute("categorie");%>
-<% Users vendeur = (Users) request.getAttribute("vendeur");%>
-<% Retrait retrait = (Retrait) request.getAttribute("retrait");%>
-<% Enchere enchere = enchere = (Enchere) request.getAttribute("enchere");%>
-<% Users encherisseur = encherisseur = (Users) request.getAttribute("encherisseur");%>
+<%
+    Article article = (Article) request.getAttribute("article");
+    String Categorie = (String) request.getAttribute("categorie");
+    Users vendeur = (Users) request.getAttribute("vendeur");
+    Retrait retrait = (Retrait) request.getAttribute("retrait");
+    Enchere enchere = (Enchere) request.getAttribute("enchere");
+    Users encherisseur = (Users) request.getAttribute("encherisseur");
+    Users user = (Users) request.getSession().getAttribute("user");
+    Boolean connected = (Boolean) request.getSession().getAttribute("isConnected");
+%>
 
 <html>
 <head>
@@ -71,6 +69,10 @@
     <% } %>
     </tbody>
 </table>
+
+<%  if (connected != null && user.equals(vendeur) && "CR".equals(article.getEtatVente())) { %>
+    <a href="<%=request.getContextPath()%>/ServletModificationArticle?id=<%=article.getNo_article()%>" id="modification">Modifier mon article</a>
+<% } %>
 
 </body>
 </html>

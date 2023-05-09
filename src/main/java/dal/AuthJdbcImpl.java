@@ -75,7 +75,6 @@ public class AuthJdbcImpl implements AuthDAO {
                         rs.getString("rue"),
                         rs.getString("code_postal"),
                         rs.getString("ville"),
-                        rs.getString("mot_de_passe"),
                         rs.getInt("credit"),
                         rs.getInt("administrateur"));
             }

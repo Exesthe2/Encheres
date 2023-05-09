@@ -41,7 +41,16 @@ public class ServletProfile extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
         }else if(Boolean.TRUE.equals(connect) && id == user.getNo_utilisateur()) {
           request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
-        }else{
+        }else if(Boolean.TRUE.equals(connect)){
+            try {
+                user = bll.SelectById(id);
+            } catch (BLLException e) {
+                throw new RuntimeException(e);
+            }
+            request.setAttribute("user", user);
+            request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
+        }
+        else{
             response.sendRedirect(request.getContextPath() + "/ServletAccueil");
         }
     }

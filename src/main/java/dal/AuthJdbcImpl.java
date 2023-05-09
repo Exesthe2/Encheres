@@ -20,6 +20,7 @@ public class AuthJdbcImpl implements AuthDAO {
     private static final String UPDATEPROFILEWITHPASSWORD = "UPDATE UTILISATEURS SET nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ? WHERE no_utilisateur=?;";
     private static final String GETALLPSEUDOS = "SELECT pseudo, email FROM UTILISATEURS;";
     private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe,credit, administrateur) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String SELECTPORTEFEUILLE = "SELECT credit FROM UTILISATEURS WHERE no_utilisateur = ?;";
 
 
     @Override
@@ -84,7 +85,7 @@ public class AuthJdbcImpl implements AuthDAO {
 
     @Override
     public void DeleteUser(int id) {
-        try(Connection cnx = ConnectionProvider.getConnection();){
+        try (Connection cnx = ConnectionProvider.getConnection();) {
             PreparedStatement ps = cnx.prepareStatement(DELETEUSER);
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -96,10 +97,10 @@ public class AuthJdbcImpl implements AuthDAO {
     @Override
     public String VerifPassword(int id) {
         String password = null;
-        try(Connection cnx = ConnectionProvider.getConnection();){
+        try (Connection cnx = ConnectionProvider.getConnection();) {
             PreparedStatement ps = cnx.prepareStatement(VERIFPASSWORD);
             ps.setInt(1, id);
-           ResultSet rs =  ps.executeQuery();
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 password = rs.getString("mot_de_passe");
             }
@@ -112,7 +113,7 @@ public class AuthJdbcImpl implements AuthDAO {
 
     @Override
     public void UpdateProfile(Users user) throws SQLException {
-        try(Connection cnx = ConnectionProvider.getConnection();) {
+        try (Connection cnx = ConnectionProvider.getConnection();) {
             PreparedStatement ps = cnx.prepareStatement(UPDATEPROFILE);
             ps.setString(1, user.getNom());
             ps.setString(2, user.getPrenom());
@@ -124,14 +125,14 @@ public class AuthJdbcImpl implements AuthDAO {
             ps.setInt(8, user.getNo_utilisateur());
             ps.executeUpdate();
 
-    }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public void UpdateProfileWithPassWord(Users user) {
-        try(Connection cnx = ConnectionProvider.getConnection();) {
+        try (Connection cnx = ConnectionProvider.getConnection();) {
             PreparedStatement ps = cnx.prepareStatement(UPDATEPROFILEWITHPASSWORD);
             ps.setString(1, user.getNom());
             ps.setString(2, user.getPrenom());
@@ -144,7 +145,7 @@ public class AuthJdbcImpl implements AuthDAO {
             ps.setInt(9, user.getNo_utilisateur());
             ps.executeUpdate();
 
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
@@ -209,5 +210,22 @@ public class AuthJdbcImpl implements AuthDAO {
             e.printStackTrace();
         }
         return user;
+    }
+
+    @Override
+    public int selectPortefeuille(int id) throws SQLException {
+        int portefeuille = 0;
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement pst = cnx.prepareStatement(SELECTPORTEFEUILLE);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                portefeuille = rs.getInt("credit");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return portefeuille;
     }
 }

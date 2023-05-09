@@ -20,4 +20,6 @@ public interface AuthDAO {
     List<String> pseudosAndEmails();
 
     Users registerUser(String pseudo, String firstname, String lastname, String phoneNumber, String postalCode, String street, String town, String email, String password, String confirmPassword);
+
+    int selectPortefeuille(int id) throws SQLException;
 }

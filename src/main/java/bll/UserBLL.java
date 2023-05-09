@@ -5,7 +5,6 @@ import dal.AuthDAO;
 import dal.DAOFactory;
 
 import java.sql.SQLException;
-import java.util.Objects;
 import java.util.List;
 
 public class UserBLL {
@@ -16,12 +15,19 @@ public class UserBLL {
         dao = DAOFactory.getAuthDAO();
     }
 
+    public void auctionsTimer(String cancel) {
+        dao.auctionsTimer(cancel);
+    }
+
     public Users loginBLL(String emailOrPseudo, String password) throws BLLException {
         return dao.login(emailOrPseudo, password);
     }
-    public Users SelectById(int id) throws BLLException { return dao.SelectById(id); }
 
-    public void DeleteUser(Users user, String password) throws  BLLException {
+    public Users SelectById(int id) throws BLLException {
+        return dao.SelectById(id);
+    }
+
+    public void DeleteUser(Users user, String password) throws BLLException {
         int id = user.getNo_utilisateur();
         if (VerifPassword(id, password)) {
             dao.DeleteUser(id);

@@ -60,6 +60,7 @@
         <th>Vendeur :</th>
         <th><a href="<%=request.getContextPath() %>/ServletProfile?id=<%=vendeur.getNo_utilisateur()%>"><%=vendeur.getPseudo()%></a></th>
     </tr>
+    <% if(article.getEtatVente().equals("EC")){%>
     <form action="<%= request.getContextPath() %>/ServletUniqueEnchere" method="post">
         <tr>
             <th>Ma proposition :</th>
@@ -67,8 +68,8 @@
             <th><button type="submit" name="encherir" value="encherir">Enchérir</button></th>
         </tr>
     </form>
+    <% } %>
     <tr>
-
     </tr>
     </tbody>
 </table>

@@ -13,7 +13,7 @@ import java.util.List;
 public class ArticleJdbcImpl implements ArticleDAO {
 
     private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, no_utilisateur, no_categorie) VALUES (?,?,?,?,?,?,?);";
-    private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, prix_vente=?, no_utilisateur=?, no_categorie=?, etat_vente=? WHERE id=?;";
+    private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?, description=?, date_debut_enchere=?, date_fin_enchere=?, prix_initial=?, no_utilisateur=?, no_categorie=? WHERE no_article=?;";
     private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE id=?;";
     private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND etat_vente = 'EC'";
     private static final String SELECTBYID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?;";
@@ -88,10 +88,9 @@ public class ArticleJdbcImpl implements ArticleDAO {
             ps.setDate(3, Date.valueOf(article.getDateDebut().toLocalDate()));
             ps.setDate(4, Date.valueOf(article.getDateFin().toLocalDate()));
             ps.setInt(5, article.getPrixInitial());
-            ps.setInt(6, article.getPrixVente());
-            ps.setInt(7, article.getNo_utilisateur());
-            ps.setInt(8, article.getNo_categorie());
-            ps.setString(9, article.getEtatVente());
+            ps.setInt(6, article.getNo_utilisateur());
+            ps.setInt(7, article.getNo_categorie());
+            ps.setInt(8, article.getNo_article());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

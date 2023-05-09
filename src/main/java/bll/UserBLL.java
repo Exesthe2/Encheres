@@ -19,7 +19,7 @@ public class UserBLL {
     public Users loginBLL(String emailOrPseudo, String password) throws BLLException {
         return dao.login(emailOrPseudo, password);
     }
-    public Users SelectById(int id) { return dao.SelectById(id); }
+    public Users SelectById(int id) throws BLLException { return dao.SelectById(id); }
 
     public void DeleteUser(Users user, String password) throws  BLLException {
         int id = user.getNo_utilisateur();

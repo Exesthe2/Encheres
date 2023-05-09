@@ -13,6 +13,7 @@ public class CategorieJdbcImpl implements CategorieDAO {
 
     private static final String SELECTBYID = "SELECT * FROM CATEGORIES WHERE id = ?;";
     private static final String SELECT_ALL = "SELECT * FROM CATEGORIES;";
+    private static final String SELECTNOMCATEGORIE = "SELECT libelle FROM CATEGORIES WHERE no_categorie = ?;";
 
     @Override
     public Categorie selectById(int id) {
@@ -51,6 +52,22 @@ public class CategorieJdbcImpl implements CategorieDAO {
             e.printStackTrace();
         }
         return resultat;
+    }
+
+    @Override
+    public String selectNomCategorie(int id) {
+        String libelle = null;
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement ps = cnx.prepareStatement(SELECTNOMCATEGORIE);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                libelle = rs.getString("libelle");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return libelle;
     }
 
 }

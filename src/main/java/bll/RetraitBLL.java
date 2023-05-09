@@ -33,4 +33,9 @@ public class RetraitBLL {
 
         dao.insert(retrait);
     }
+
+    public Retrait selectById(int id) throws BLLException{
+        Retrait retrait = dao.selectById(id);
+        return retrait;
+    }
 }

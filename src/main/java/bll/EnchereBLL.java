@@ -12,7 +12,9 @@ public class EnchereBLL {
         dao = DAOFactory.getEnchereDAO();
     }
 
-    public Enchere selectByArticleId(int id) throws BLLException {
-        return dao.selectByArticleId(id);
+    public Enchere selectByArticleId(int id) throws  BLLException{
+        Enchere enchere;
+        enchere = dao.selectByArticleId(id);
+        return enchere;
     }
 }

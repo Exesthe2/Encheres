@@ -1,5 +1,6 @@
 package dal;
 
+import bll.BLLException;
 import bo.Article;
 
 import java.util.List;
@@ -13,4 +14,8 @@ public interface ArticleDAO {
     void update(Article article);
 
     void delete(int id);
+
+    Article selectById(int id) throws BLLException;
+
+
 }

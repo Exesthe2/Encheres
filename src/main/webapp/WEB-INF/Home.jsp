@@ -25,25 +25,33 @@
         </select>
 
         <c:if test="${isConnected == true}">
-            <label>Achats :</label>
-            <input type="checkbox" name="openAuctions" id="openAuctions" value="EC">
-            <label for="openAuctions">Enchères ouvertes</label>
 
-            <input type="checkbox" name="myAuctions" id="myAuctions">
-            <label for="myAuctions">Mes enchères</label>
+            <div>
+                <label>Achats :</label>
+                <input type="radio" name="buyOrSell" value="buy">
+                <div>
+                    <input type="checkbox" name="openAuctions" id="openAuctions" value="EC">
+                    <label for="openAuctions">Enchères ouvertes</label>
 
-            <input type="checkbox" name="myAuctionsWin" id="myAuctionsWin">
-            <label for="myAuctionsWin">Mes enchères remportées</label>
+                    <input type="checkbox" name="myAuctions" id="myAuctions" value="1">
+                    <label for="myAuctions">Mes enchères</label>
 
-            <label>Ventes :</label>
-            <input type="checkbox" name="myCurrentSales" id="myCurrentSales">
-            <label for="myCurrentSales">Mes ventes en cours</label>
+                    <input type="checkbox" name="myAuctionsWin" id="myAuctionsWin" value="1">
+                    <label for="myAuctionsWin">Mes enchères remportées</label>
+                </div>
+                <label>Ventes :</label>
+                <input type="radio" name="buyOrSell" value="sell">
+                <div>
+                    <input type="checkbox" name="myCurrentSales" id="myCurrentSales" value="EC">
+                    <label for="myCurrentSales">Mes ventes en cours</label>
 
-            <input type="checkbox" name="mySalesNotStart" id="mySalesNotStart">
-            <label for="mySalesNotStart">Mes ventes non débutées</label>
+                    <input type="checkbox" name="mySalesNotStart" id="mySalesNotStart" value="CR">
+                    <label for="mySalesNotStart">Mes ventes non débutées</label>
 
-            <input type="checkbox" name="mySalesEnd" id="mySalesEnd">
-            <label for="mySalesEnd">Mes ventes terminées</label>
+                    <input type="checkbox" name="mySalesEnd" id="mySalesEnd" value="VD">
+                    <label for="mySalesEnd">Mes ventes terminées</label>
+                </div>
+            </div>
         </c:if>
 
         <button type="submit">Rechercher</button>

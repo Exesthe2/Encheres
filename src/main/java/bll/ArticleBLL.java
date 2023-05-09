@@ -2,6 +2,7 @@ package bll;
 
 import bo.Article;
 import bo.Categorie;
+import bo.Users;
 import dal.ArticleDAO;
 import dal.DAOFactory;
 
@@ -84,34 +85,59 @@ public class ArticleBLL {
         HttpSession session = request.getSession();
         Object isConnected = session.getAttribute("isConnected");
         request.setAttribute("isConnected", isConnected);
+        Users user = (Users) session.getAttribute("user");
+
 
         List<Article> articles = null;
+
+
         if (isConnected == null) {
             articles = dao.getAllArticlesInProgress(articleName, categorie);
         } else if (isConnected != null) {
-            //Connecté
-            String openAuctions = request.getParameter("openAuctions");
-            String closeAuctions = "VD";
-            String createAuctions = "CR";
+            String radioButton = request.getParameter("buyOrSell");
 
-            if (openAuctions == null) {
-                openAuctions = "EC";
-            } else if (openAuctions.equals("EC")) {
-                closeAuctions = "";
-                createAuctions = "";
+            if (radioButton == null || radioButton.equals("buy")) {
+                //Connecté
+                String myAuctionsWin = request.getParameter("myAuctionsWin");
+                String openAuctions = request.getParameter("openAuctions");
+                String closeAuctions = "VD";
+                String createAuctions = "CR";
+                if (openAuctions == null) {
+                    openAuctions = "EC";
+                } else if (openAuctions.equals("EC")) {
+                    closeAuctions = "";
+                    createAuctions = "";
+                }
+                if (myAuctionsWin != null) {
+                    openAuctions = "";
+                    closeAuctions = "VD";
+                    createAuctions = "";
+                }
+
+                String myAuctions = request.getParameter("myAuctions");
+                if (myAuctions != null || myAuctionsWin != null) {
+                    myAuctions = String.valueOf(user.getNo_utilisateur());
+                }
+
+                // Call methode pour utilisateur connecté.
+                articles = dao.getAllArticlesWithConnectedFilters(articleName, categorie, openAuctions, closeAuctions, createAuctions, myAuctions, myAuctionsWin);
+            } else if (radioButton.equals("sell")) {
+
+                String myCurrentSales = request.getParameter("myCurrentSales");
+                String mySalesNotStart = request.getParameter("mySalesNotStart");
+                String mySalesEnd = request.getParameter("mySalesEnd");
+
+                if (myCurrentSales == null) {
+                    myCurrentSales = "";
+                }
+                if (mySalesNotStart == null) {
+                    mySalesNotStart = "";
+                }
+                if (mySalesEnd == null) {
+                    mySalesEnd = "";
+                }
+                articles = dao.getAllArticlesForConnectedUser(articleName, categorie, user.getNo_utilisateur(), myCurrentSales, mySalesNotStart, mySalesEnd);
             }
-
-            //System.out.println();
-
-            boolean myAuctions = Boolean.parseBoolean(request.getParameter("myAuctions"));
-            boolean myAuctionsWin = Boolean.parseBoolean(request.getParameter("myAuctionsWin"));
-
-            boolean myCurrentSales = Boolean.parseBoolean(request.getParameter("myCurrentSales"));
-            boolean mySalesNotStart = Boolean.parseBoolean(request.getParameter("mySalesNotStart"));
-            boolean mySalesEnd = Boolean.parseBoolean(request.getParameter("mySalesEnd"));
-
-            // Call methode pour utilisateur connecté.
-            articles = dao.getAllArticlesWithConnectedFilters(articleName, categorie, openAuctions, closeAuctions, createAuctions, myAuctions, myAuctionsWin, myCurrentSales, mySalesNotStart, mySalesEnd);
         }
         return articles;
     }

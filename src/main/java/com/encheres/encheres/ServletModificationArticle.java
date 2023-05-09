@@ -29,7 +29,7 @@ public class ServletModificationArticle extends HttpServlet {
         Article article = null;
         Image image = null;
 
-        String id = request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
 
         try {
             categories = categorieBLL.selectAll();
@@ -37,12 +37,12 @@ public class ServletModificationArticle extends HttpServlet {
             throw new RuntimeException(e);
         }
         try {
-            article = articleBLL.selectById(Integer.parseInt(id));
+            article = articleBLL.selectById(id);
         } catch (BLLException e) {
             throw new RuntimeException(e);
         }
         try {
-            imageBLL.selectById(Integer.parseInt(id));
+            imageBLL.selectById(id);
         } catch (BLLException e) {
             throw new RuntimeException(e);
         }
@@ -55,7 +55,20 @@ public class ServletModificationArticle extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        Users user = (Users) request.getSession().getAttribute("user");
+        int idArticle = Integer.parseInt(request.getParameter("id"));
+        boolean error = false;
+        try {
+            articleBLL.canModify(idArticle ,user.getNo_utilisateur());
+        } catch (BLLException e) {
+            error = true;
+            request.setAttribute("error", e.getMessage());
+        }
+        System.out.println(error);
+
+        if (error) {
+            doGet(request, response);
+        }
         String nomArticle = request.getParameter("article");
         String description = request.getParameter("description");
 
@@ -87,7 +100,7 @@ public class ServletModificationArticle extends HttpServlet {
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
 
-        Article article = new Article(id ,nomArticle, description, dateDebut, dateFin, prixInitial, prixVente, no_utilisateur, no_categorie, etatVente);
+        Article article = new Article(idArticle ,nomArticle, description, dateDebut, dateFin, prixInitial, prixVente, no_utilisateur, no_categorie, etatVente);
         try {
             articleBLL.update(article);
             try {

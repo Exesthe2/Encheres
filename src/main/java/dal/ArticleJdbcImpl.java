@@ -17,6 +17,7 @@ public class ArticleJdbcImpl implements ArticleDAO {
     private static final String DELETE = "DELETE FROM ARTICLES_VENDUS WHERE id=?;";
     private static final String SELECTALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND etat_vente = 'EC'";
     private static final String SELECTBYID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?;";
+    private static final String CANMODIFY = "SELECT no_utilisateur FROM ARTICLES_VENDUS WHERE no_article=?;";
 
     private EnchereBLL enchereBLL = new EnchereBLL();
     private Enchere enchere;
@@ -130,6 +131,22 @@ public class ArticleJdbcImpl implements ArticleDAO {
                 );
             }
             return article;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public String canModify(int idArticle) {
+        String id = null;
+        try (Connection cnx = ConnectionProvider.getConnection();) {
+            PreparedStatement ps = cnx.prepareStatement(SELECTBYID);
+            ps.setInt(1, idArticle);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getString("no_utilisateur");
+            }
+            return id;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

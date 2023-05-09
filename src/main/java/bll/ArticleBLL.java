@@ -106,4 +106,12 @@ public class ArticleBLL {
         Article article = dao.selectById(id);
         return article;
     }
+
+    public Boolean canModify(int idArticle, int idUtilisateur) throws BLLException {
+        int idUtilisateurArticle = Integer.parseInt(dao.canModify(idArticle));
+        if (idUtilisateur != idUtilisateurArticle) {
+            throw new BLLException("Cet utilisateur ne peut pas modifier cet article car il ne lui appartient pas");
+        }
+        return true;
+    }
 }

@@ -1,14 +1,11 @@
 <%@ page import="bo.Users" %>
 <%@ page import="bo.Article" %>
 <%@ page import="bo.Image" %>
-<%@ page import="java.util.List" %>
-<%@ page import="bo.Categorie" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
   Users users = (Users) request.getSession().getAttribute("user");
   Article article = (Article) request.getAttribute("article");
   Image image = (Image) request.getAttribute("image");
-//  List<Categorie> categories = (List<Categorie>) request.getAttribute("categories");
 %>
 <html>
 <head>

@@ -75,6 +75,10 @@ public class ServletRegister extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 session.setAttribute("isConnected", true);
+
+                String cancel = null;
+                bll.auctionsTimer(cancel);
+
                 redirection = "Home.jsp";
             } else if (user == null) {
                 request.setAttribute("error", "Une erreur c'est produite. Veuillez re-essayer.");

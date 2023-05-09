@@ -43,7 +43,6 @@ public class ServletProfile extends HttpServlet {
         }else if(Boolean.TRUE.equals(connect) && id == user.getNo_utilisateur()) {
           request.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(request, response);
         }else{
-            System.out.println("else");
             response.sendRedirect(request.getContextPath() + "/ServletAccueil");
         }
     }

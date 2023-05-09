@@ -257,7 +257,7 @@ public class ArticleJdbcImpl implements ArticleDAO {
     public String canModify(int idArticle) {
         String id = null;
         try (Connection cnx = ConnectionProvider.getConnection();) {
-            PreparedStatement ps = cnx.prepareStatement(SELECTBYID);
+            PreparedStatement ps = cnx.prepareStatement(CANMODIFY);
             ps.setInt(1, idArticle);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

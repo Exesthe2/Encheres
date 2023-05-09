@@ -4,6 +4,8 @@ import bo.Image;
 import dal.DAOFactory;
 import dal.ImageDAO;
 
+import java.util.List;
+
 public class ImageBLL {
     private ImageDAO dao;
 
@@ -21,5 +23,9 @@ public class ImageBLL {
 
     public void selectById(int id) throws BLLException {
         dao.selectById(id);
+    }
+
+    public List<Image> selectAll() throws BLLException {
+        return dao.selectAll();
     }
 }

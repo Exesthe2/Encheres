@@ -64,7 +64,6 @@ public class ServletModificationArticle extends HttpServlet {
             error = true;
             request.setAttribute("error", e.getMessage());
         }
-        System.out.println(error);
 
         if (error) {
             doGet(request, response);

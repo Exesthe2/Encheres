@@ -3,22 +3,19 @@ package com.encheres.encheres;
 import bll.*;
 import bo.*;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
-@WebServlet("/ServletArticle")
+@WebServlet("/ServletModificationArticle")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10, // 10MB
-        maxRequestSize = 1024 * 1024 * 50) // 50MB)
-public class ServletArticle extends HttpServlet {
+        maxRequestSize = 1024 * 1024 * 50) // 50MB
+public class ServletModificationArticle extends HttpServlet {
 
     private ArticleBLL articleBLL = new ArticleBLL();
     private CategorieBLL categorieBLL = new CategorieBLL();
@@ -29,17 +26,49 @@ public class ServletArticle extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Categorie> categories = null;
+        Article article = null;
+        Image image = null;
+
+        int id = Integer.parseInt(request.getParameter("id"));
+
         try {
             categories = categorieBLL.selectAll();
         } catch (BLLException e) {
             throw new RuntimeException(e);
         }
+        try {
+            article = articleBLL.selectById(id);
+        } catch (BLLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            imageBLL.selectById(id);
+        } catch (BLLException e) {
+            throw new RuntimeException(e);
+        }
+
         request.setAttribute("categories", categories);
-        request.getRequestDispatcher("/WEB-INF/Sell.jsp").forward(request, response);
+        request.setAttribute("article", article);
+        request.setAttribute("image", image);
+        request.getRequestDispatcher("/WEB-INF/UpdateArticle.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Users user = (Users) request.getSession().getAttribute("user");
+        int idArticle = Integer.parseInt(request.getParameter("id"));
+        boolean error = false;
+        try {
+            articleBLL.canModify(idArticle ,user.getNo_utilisateur());
+        } catch (BLLException e) {
+            error = true;
+            request.setAttribute("error", e.getMessage());
+        }
+        System.out.println(error);
+
+        if (error) {
+            doGet(request, response);
+        }
         String nomArticle = request.getParameter("article");
         String description = request.getParameter("description");
 
@@ -71,22 +100,22 @@ public class ServletArticle extends HttpServlet {
         String codePostal = request.getParameter("codePostal");
         String ville = request.getParameter("ville");
 
-        Article article = new Article(nomArticle, description, dateDebut, dateFin, prixInitial, prixVente, no_utilisateur, no_categorie, etatVente);
+        Article article = new Article(idArticle ,nomArticle, description, dateDebut, dateFin, prixInitial, prixVente, no_utilisateur, no_categorie, etatVente);
         try {
-            articleBLL.insert(article);
+            articleBLL.update(article);
             try {
                 String appPath = request.getServletContext().getRealPath("");
                 Part part = request.getPart("pictureFile");
                 String fileName = functionImage.saveFile(appPath, part);
 
                 Image image = new Image(article.getNo_article(), fileName);
-                imageBLL.insert(image);
+                imageBLL.update(image);
             } catch (Exception e) {
                 e.printStackTrace();
                 request.setAttribute("error", e.getMessage());
             }
             Retrait retrait = new Retrait(article.getNo_article(), rue, codePostal, ville);
-            retraitBLL.insert(retrait);
+            retraitBLL.update(retrait);
             response.sendRedirect(request.getContextPath() + "/ServletAccueil");
         } catch (BLLException e) {
             request.setAttribute("error", e.getMessage());

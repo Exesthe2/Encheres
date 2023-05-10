@@ -41,6 +41,10 @@ public class ServletLogin extends HttpServlet {
             session.setAttribute("user", user);
             session.setAttribute("isConnected", true);
             response.sendRedirect(request.getContextPath() + "/ServletAccueil");
+
+            String cancel = null;
+            bll.auctionsTimer(cancel);
+
         } else if (user == null) {
             request.setAttribute("error", "Email/Pseudo ou mot de passe incorect.");
             request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);

@@ -1,5 +1,7 @@
 package bo;
 
+import java.util.Objects;
+
 public class Users {
     private int no_utilisateur;
     private String pseudo;
@@ -153,6 +155,14 @@ public class Users {
 
     public void setAdministrateur(int administrateur) {
         this.administrateur = administrateur;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Users users = (Users) o;
+        return no_utilisateur == users.no_utilisateur && credit == users.credit && administrateur == users.administrateur && Objects.equals(pseudo, users.pseudo) && Objects.equals(nom, users.nom) && Objects.equals(prenom, users.prenom) && Objects.equals(email, users.email) && Objects.equals(telephone, users.telephone) && Objects.equals(rue, users.rue) && Objects.equals(code_postal, users.code_postal) && Objects.equals(ville, users.ville);
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.sql.*;
 public class RetraitJdbcImpl implements RetraitDAO {
 
     private static final String INSERT = "INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES (?,?,?,?);";
+    private static final String UPDATE = "UPDATE RETRAITS SET rue=?, code_postal=?, ville=? WHERE no_article=?;";
     private static final String SELECTBYID = "SELECT * FROM RETRAITS WHERE no_article = ?;";
     @Override
     public void insert(Retrait retrait) {
@@ -19,6 +20,20 @@ public class RetraitJdbcImpl implements RetraitDAO {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Retrait retrait) {
+        try(Connection cnx = ConnectionProvider.getConnection();) {
+            PreparedStatement ps = cnx.prepareStatement(UPDATE);
+            ps.setString(1, retrait.getRue());
+            ps.setString(2, retrait.getCodePostal());
+            ps.setString(3, retrait.getVille());
+            ps.setInt(4, retrait.getNo_article());
+            ps.executeUpdate();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

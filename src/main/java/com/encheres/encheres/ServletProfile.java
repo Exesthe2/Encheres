@@ -31,6 +31,7 @@ public class ServletProfile extends HttpServlet {
         Boolean connect = (Boolean) request.getSession().getAttribute("isConnected");
         Users user =  (Users) request.getSession().getAttribute("user");
         int id = Integer.parseInt(request.getParameter("id"));
+
         if (connect == null && user == null) {
             try {
                 user = bll.SelectById(id);

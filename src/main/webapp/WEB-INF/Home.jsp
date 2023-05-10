@@ -7,25 +7,23 @@
     <title>Accueil</title>
 </head>
 <body>
-<h1>Liste des enchères</h1>
 <%@include file="Header.jsp" %>
 
 <div class="filter">
-    <p>Filtres :</p>
     <form action="<%= request.getContextPath() %>/ServletAccueil" method="get">
-        <label>Nom de l'article :</label>
-        <input type="text" name="articleName">
-
-        <label>Catégories :</label>
-        <select name="categorie">
-            <option value="" selected>Toutes categories</option>
-            <c:forEach var="categorie" items="${categories}">
-                <option value="${categorie.no_categorie}">${categorie.libelle}</option>
-            </c:forEach>
-        </select>
+        <div class="noConnected">
+            <label>Nom de l'article : </label>
+            <input type="text" name="articleName">
+            <label>Catégories : </label>
+            <select name="categorie">
+                <option value="" selected>Toutes categories</option>
+                <c:forEach var="categorie" items="${categories}">
+                    <option value="${categorie.no_categorie}">${categorie.libelle}</option>
+                </c:forEach>
+            </select>
+        </div>
 
         <c:if test="${isConnected == true}">
-
             <div>
                 <label>Achats :</label>
                 <input type="radio" name="buyOrSell" value="buy">
@@ -62,10 +60,11 @@
         <div class="card">
             <div class="productInfos">
                 <a href="<%=request.getContextPath() %>/ServletUniqueEnchere?id=${article.no_article}">
-                <h3 class="productTitle">${article.nom}</h3>
+                    <h3 class="productTitle">${article.nom}</h3>
                 </a>
                 <c:if test="${article.enchere != null}">
-                    <p class="productPrice">Prix : ${article.enchere.montant_enchere} points</p>
+                    <p class="productPrice">Prix : </p>
+                    <p>${article.enchere.montant_enchere} points</p>
                 </c:if>
                 <c:if test="${empty(article.enchere)}">
                     <p class="productPrice">Prix : ${article.prixInitial} points</p>

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/ServletUniqueEnchere")
 public class ServletUniqueEnchere extends HttpServlet {
@@ -71,7 +72,7 @@ public class ServletUniqueEnchere extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
-
+        req.getSession().setAttribute("id_article", idArticle);
         req.setAttribute("article", article);
         req.setAttribute("enchere", enchere);
         req.setAttribute("categorie", categorie);
@@ -83,6 +84,32 @@ public class ServletUniqueEnchere extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        boolean connect = (boolean) req.getSession().getAttribute("isConnected");
+        int no_article = (int) req.getSession().getAttribute("id_article");
+        if(connect){
+            Users user = (Users) req.getSession().getAttribute("user");
+            int credit = user.getCredit();
+            int montant = Integer.parseInt(req.getParameter("offre"));
+            System.out.println(req.getParameter("offre"));
+
+                try {
+                    System.out.println(Userbll.verifSomme(user.getNo_utilisateur(), montant));
+                    if (Userbll.verifSomme(user.getNo_utilisateur(), montant)) {
+                        System.out.println("true");
+                        credit = Encherebll.makeEnchere(user.getNo_utilisateur(), no_article, montant);
+                        user.setCredit(credit);
+                        req.getSession().setAttribute("user", user);
+                        resp.sendRedirect(req.getContextPath() + "/ServletUniqueEnchere?id=" + no_article);
+                    } else {
+                        throw new BLLException("les fond de votre portefeuille sont insuffisant");
+                    }
+                } catch (BLLException | SQLException e) {
+                    req.setAttribute("errorMessage", e.getMessage());
+                    resp.sendRedirect(req.getContextPath() + "/ServletUniqueEnchere?id=" + no_article);
+                }
+
+        }else{
+            req.getRequestDispatcher("/WEB-INF/Login.jsp");
+        }
     }
 }

@@ -106,7 +106,7 @@ public class Article {
         this.dateFin = dateFin;
     }
 
-    public Integer getPrixInitial() {
+    public int getPrixInitial() {
         return prixInitial;
     }
 

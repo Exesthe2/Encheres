@@ -11,7 +11,12 @@ import java.time.LocalDateTime;
 public class EnchereJdbcImpl implements EnchereDAO {
 
     private static final String SELECTBYID = "SELECT * FROM ENCHERES WHERE no_enchere = ?;";
-    private static final String SELECTBYARTICLEID = "SELECT * FROM ENCHERES WHERE no_article = ? ORDER BY montant_enchere;";
+    private static final String SELECTBYARTICLEID = "SELECT * FROM ENCHERES WHERE no_article = ? ORDER BY montant_enchere DESC  limit 1;";
+    private static final String SELECTDERNIEREENCHERE = "SELECT no_utilisateur, montant_enchere FROM ENCHERES WHERE no_article = ? and montant_enchere = (SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ? GROUP BY no_article)";
+    private static final String SELECTCREDITFORDUSER ="SELECT credit FROM utilisateurs WHERE no_utilisateur = ?;";
+    private static final String REMBOURSEMENT = "UPDATE utilisateurs SET  credit = ? WHERE no_utilisateur = ? and credit = ?;";
+    private static final String NEWENCHERE = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, montant_enchere) VALUE (?, ?, NOW(), ?);";
+    private static final String PAYERENCHERE =" UPDATE utilisateurs SET credit = ? WHERE no_utilisateur = ? and credit = ?;";
 
     @Override
     public Enchere selectById(int id) {
@@ -55,5 +60,101 @@ public class EnchereJdbcImpl implements EnchereDAO {
             e.printStackTrace();
         }
         return enchere;
+    }
+
+    @Override
+    public int newEnchere(int no_utilisateur, int no_article, int montant) throws SQLException {
+        int portefeuille = 0;
+        int old_enchere = 0;
+        int old_user = 0;
+        int new_portefeuille = 0;
+        int portefeuille_user = 0;
+        int new_portefeuille_user = 0;
+        Connection cnx = ConnectionProvider.getConnection();
+        try ( cnx ) {
+            cnx.setAutoCommit(false);
+            System.out.println("étape 1");
+            // Selection de la derniere encheres
+            PreparedStatement ps1 = cnx.prepareStatement(SELECTDERNIEREENCHERE);
+            ps1.setInt(1, no_article);
+            ps1.setInt(2, no_article);
+            System.out.println("étape 2");
+            ResultSet rs1 = ps1.executeQuery();
+            while(rs1.next()){
+                old_user = Integer.parseInt(rs1.getString("no_utilisateur"));
+                old_enchere = Integer.parseInt(rs1.getString("montant_enchere"));
+            }
+            if(montant <= old_enchere){
+                cnx.rollback();
+                System.out.println("enchere basse");
+                throw new SQLException("l'enchere n'est pas assez haute");
+
+            }
+            // Selection du nombre de crédit actuel de old_user
+            PreparedStatement ps2 = cnx.prepareStatement(SELECTCREDITFORDUSER);
+            System.out.println("étape 3");
+            ps2.setInt(1 , old_user);
+            ResultSet rs2 = ps2.executeQuery();
+            while(rs2.next()){
+                portefeuille = rs2.getInt("credit");
+            }
+
+            // Remboursement avec verification si pas de modification du nombre de credit
+            new_portefeuille = portefeuille + old_enchere;
+            PreparedStatement ps3 = cnx.prepareStatement(REMBOURSEMENT);
+            System.out.println("étape 4");
+            ps3.setInt(1, new_portefeuille);
+            ps3.setInt(2, old_user);
+            ps3.setInt(3, portefeuille);
+            ps3.executeUpdate();
+
+            PreparedStatement ps4 = cnx.prepareStatement(SELECTCREDITFORDUSER);
+            System.out.println("étape 5");
+            ps4.setInt(1, no_utilisateur);
+            ResultSet rs4 = ps4.executeQuery();
+            while(rs4.next()){
+                portefeuille_user = rs4.getInt("credit");
+            }
+            // Retrait des crédit sur le compte user
+            new_portefeuille_user = portefeuille_user - montant;
+           if(new_portefeuille_user < 0){
+               cnx.rollback();
+               System.out.println("portefeuille inssufissant");
+               throw new SQLException("pas assez de credit");
+
+           }
+            PreparedStatement ps5 =cnx.prepareStatement(PAYERENCHERE);
+            System.out.println("étape 6");
+            System.out.println("etape 6.1");
+            ps5.setInt(1, new_portefeuille_user);
+            ps5.setInt(2, no_utilisateur);
+            ps5.setInt(3, portefeuille_user);
+            ps5.executeUpdate();
+            System.out.println("6.2");
+            // Création de l'enchere
+
+            PreparedStatement ps6 = cnx.prepareStatement(NEWENCHERE);
+            System.out.println("étape 7");
+            ps6.setInt(1,no_utilisateur);
+            ps6.setInt(2, no_article);
+            ps6.setInt(3, montant);
+
+            ps6.executeUpdate();
+
+            PreparedStatement ps7 = cnx.prepareStatement(SELECTCREDITFORDUSER);
+            ps7.setInt(1, no_utilisateur);
+            ResultSet rs7 = ps7.executeQuery();
+            while ((rs7.next())){
+                portefeuille_user = rs7.getInt("credit");
+            }
+
+            cnx.commit();
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            cnx.rollback();
+
+        }
+        return portefeuille_user;
     }
 }

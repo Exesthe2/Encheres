@@ -4,6 +4,8 @@ import bo.Enchere;
 import dal.DAOFactory;
 import dal.EnchereDAO;
 
+import java.sql.SQLException;
+
 public class EnchereBLL {
 
     private EnchereDAO dao;
@@ -16,5 +18,9 @@ public class EnchereBLL {
         Enchere enchere;
         enchere = dao.selectByArticleId(id);
         return enchere;
+    }
+
+    public int makeEnchere(int no_utilisateur, int no_article, int montant) throws SQLException{
+        return dao.newEnchere(no_utilisateur,no_article, montant);
     }
 }

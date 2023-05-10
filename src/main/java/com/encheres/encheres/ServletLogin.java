@@ -25,8 +25,6 @@ public class ServletLogin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String redirection = "Login.jsp";
-
         // Keep email/pseudo and password in form.
         String emailOrPseudo = request.getParameter("emailOrPseudo");
         String password = request.getParameter("password");
@@ -40,19 +38,33 @@ public class ServletLogin extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
             session.setAttribute("isConnected", true);
-            response.sendRedirect(request.getContextPath() + "/ServletAccueil");
+            String url = (String) session.getAttribute("url");
+            System.out.println(url);
+            if (url != null) {
+                response.sendRedirect(request.getContextPath() + url);
+            } else response.sendRedirect(request.getContextPath() + "/ServletAccueil");
 
             String cancel = null;
             bll.auctionsTimer(cancel);
 
         } else if (user == null) {
             request.setAttribute("error", "Email/Pseudo ou mot de passe incorect.");
-            request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
+            doGet(request, response);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Integer montant = (Integer) request.getAttribute("montant");
+        String url = (String) request.getAttribute("url");
+        System.out.println("url : " + url);
+        if (url != null) {
+            session.setAttribute("url", url);
+            if (montant != null) {
+                session.setAttribute("montant", montant);
+            }
+        }
         request.getRequestDispatcher("/WEB-INF/Login.jsp").forward(request, response);
     }
 }

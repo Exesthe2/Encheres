@@ -15,6 +15,7 @@
 <% if(request.getAttribute("errorMessage") != null){erreur = request.getAttribute("errorMessage").toString();}%>
 <% int value_enchere;%>
 <% Boolean connected = (Boolean) request.getSession().getAttribute("isConnected"); %>
+<% Integer montant = (Integer) session.getAttribute("montant"); %>
 <%if(enchere != null){
     value_enchere = enchere.getMontant_enchere();
 }else{
@@ -73,7 +74,11 @@
     <form action="<%= request.getContextPath() %>/ServletUniqueEnchere?id=<%=article.getNo_article()%>" method="post">
         <tr>
             <th>Ma proposition :</th>
-            <th><input type="number" name="offre" value="<%=value_enchere+1%>" min="<%=value_enchere+1%>" max="<%=current.getCredit()%>"></th>
+            <% if (montant != null && connected != null) { %>
+                <th><input type="number" name="offre" value="<%=montant%>" min="<%=value_enchere+1%>" max="<%=current.getCredit()%>"></th>
+            <% } else { %>
+                <th><input type="number" name="offre" value="<%=value_enchere+1%>" min="<%=value_enchere+1%>"></th>
+            <% } %>
             <th><button type="submit" name="encherir" value="encherir">Enchérir</button></th>
         </tr>
     </form>

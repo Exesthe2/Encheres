@@ -93,12 +93,12 @@ public class ServletUniqueEnchere extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        boolean connect = (boolean) req.getSession().getAttribute("isConnected");
+        Boolean connect = (Boolean) req.getSession().getAttribute("isConnected");
         int no_article = (int) req.getSession().getAttribute("id_article");
-        if(connect){
+        Integer montant = Integer.valueOf(req.getParameter("offre"));
+        if(connect != null){
             Users user = (Users) req.getSession().getAttribute("user");
             int credit = user.getCredit();
-            int montant = Integer.parseInt(req.getParameter("offre"));
             System.out.println(req.getParameter("offre"));
 
                 try {
@@ -117,8 +117,12 @@ public class ServletUniqueEnchere extends HttpServlet {
                     resp.sendRedirect(req.getContextPath() + "/ServletUniqueEnchere?id=" + no_article);
                 }
 
-        }else{
-            req.getRequestDispatcher("/WEB-INF/Login.jsp");
+        } else {
+            String url = "/ServletUniqueEnchere?id=" + no_article;
+            req.setAttribute("montant", montant);
+            req.setAttribute("url", url);
+            req.getRequestDispatcher("/ServletLogin").include(req, resp);
+//            resp.sendRedirect(req.getContextPath() + "/ServletLogin");
         }
     }
 }

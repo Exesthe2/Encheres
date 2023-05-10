@@ -23,6 +23,11 @@ public void init() throws ServletException {
 }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/WEB-INF/UpdateProfile.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         HttpSession session = req.getSession();
         Users user = (Users) req.getSession().getAttribute("user");
@@ -73,10 +78,6 @@ public void init() throws ServletException {
             }
             req.getRequestDispatcher("/WEB-INF/ViewProfile.jsp").forward(req, resp);
         }
-    }
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
     }
 
 

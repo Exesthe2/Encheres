@@ -13,7 +13,7 @@
     <p>${errorMessage}</p>
     </c:if>
 </div>
-<form  action="<%= request.getContextPath() %>/ServletUpdateProfile" method="get">
+<form  action="<%= request.getContextPath() %>/ServletUpdateProfile" method="post">
   <table>
       <tbody>
       <tr>

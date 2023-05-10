@@ -35,7 +35,7 @@
     <% if (user != null) {
             if (ViewUser.getNo_utilisateur() == user.getNo_utilisateur()) {
     %>
-                <form action="<%=request.getContextPath()%>/ServletProfile" method="post">
+                <form action="<%=request.getContextPath()%>/ServletUpdateProfile" method="get">
                     <button type="submit">Modifier</button>
                 </form>
     <%

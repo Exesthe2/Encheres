@@ -39,7 +39,6 @@ public class ServletLogin extends HttpServlet {
             session.setAttribute("user", user);
             session.setAttribute("isConnected", true);
             String url = (String) session.getAttribute("url");
-            System.out.println(url);
             if (url != null) {
                 response.sendRedirect(request.getContextPath() + url);
             } else response.sendRedirect(request.getContextPath() + "/ServletAccueil");
@@ -58,7 +57,6 @@ public class ServletLogin extends HttpServlet {
         HttpSession session = request.getSession();
         Integer montant = (Integer) request.getAttribute("montant");
         String url = (String) request.getAttribute("url");
-        System.out.println("url : " + url);
         if (url != null) {
             session.setAttribute("url", url);
             if (montant != null) {

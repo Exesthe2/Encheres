@@ -99,12 +99,9 @@ public class ServletUniqueEnchere extends HttpServlet {
         if(connect != null){
             Users user = (Users) req.getSession().getAttribute("user");
             int credit = user.getCredit();
-            System.out.println(req.getParameter("offre"));
 
                 try {
-                    System.out.println(Userbll.verifSomme(user.getNo_utilisateur(), montant));
                     if (Userbll.verifSomme(user.getNo_utilisateur(), montant)) {
-                        System.out.println("true");
                         credit = Encherebll.makeEnchere(user.getNo_utilisateur(), no_article, montant);
                         user.setCredit(credit);
                         req.getSession().setAttribute("user", user);

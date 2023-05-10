@@ -90,4 +90,16 @@ public class UserBLL {
     public Users newUserBLL(String pseudo, String firstname, String lastname, String phoneNumber, String postalCode, String street, String town, String email, String password, String confirmPassword) throws BLLException {
         return dao.registerUser(pseudo, firstname, lastname, phoneNumber, postalCode, street, town, email, password, confirmPassword);
     }
+
+    public boolean verifSomme(int no_utilisateur, int montant) throws BLLException, SQLException {
+        boolean acces = false;
+        int portefeuille;
+        portefeuille = dao.selectPortefeuille(no_utilisateur);
+        if(portefeuille>=montant){
+            acces = true;
+        }else{
+            throw new BLLException("Le montant de votre portefeuille est insuffisant");
+        }
+        return acces;
+    }
 }

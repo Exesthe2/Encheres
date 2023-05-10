@@ -29,7 +29,9 @@
       <c:if test="${categorie.getNo_categorie() == article.getNo_categorie()}">
         <option value="<c:out value="${categorie.getNo_categorie()}"/>" selected><c:out value="${categorie.getLibelle()}"/></option>
       </c:if>
-      <option value="<c:out value="${categorie.getNo_categorie()}"/>"><c:out value="${categorie.getLibelle()}"/></option>
+      <c:if test="${categorie.getNo_categorie() != article.getNo_categorie()}">
+        <option value="<c:out value="${categorie.getNo_categorie()}"/>"><c:out value="${categorie.getLibelle()}"/></option>
+      </c:if>
     </c:forEach>
   </select>
   <label for="pictureFile">Photo</label>

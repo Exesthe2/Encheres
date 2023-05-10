@@ -15,6 +15,9 @@
 
 <%@include file="Header.jsp" %>
 <form method="POST" action="<%=request.getContextPath()%>/ServletModificationArticle" enctype="multipart/form-data">
+  <c:if test="${'' != image.getImage()}">
+    <img src="${pageContext.request.contextPath}/uploads/${image.getImage()}" alt="${article.getNom()}" />
+  </c:if>
   <input type="hidden" name="id" value="<%=article.getNo_article()%>">
   <label for="article">Article*</label>
   <input type="text" name="article" id="article" value="<%=article.getNom()%>">
@@ -30,10 +33,21 @@
     </c:forEach>
   </select>
   <label for="pictureFile">Photo</label>
-  <c:if test="${image.getImage() != null}">
-    <input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" value="<%=image.getImage()%>"/>
-  </c:if>
-  <input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg"/>
+  <input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" onchange="PreviewImage()"/>
+  Preview de la nouvelle image <img id="uploadPreview" style="width: 100px; height: 100px;"/>
+  <script type="text/javascript">
+    function PreviewImage() {
+      var test;
+      var oFReader = new FileReader();
+      oFReader.readAsDataURL(document.getElementById("pictureFile").files[0]);
+
+      oFReader.onload = function (oFREvent) {
+        test = document.getElementById("uploadPreview").src = oFREvent.target.result;
+        test.value = "image"
+        console.log(test)
+      };
+    };
+  </script>
   <label for="prixInital">Mise à prix</label>
   <input type="number" min="0" name="prixInitial" id="prixInital" value="<%=article.getPrixInitial()%>">
   <label for="dateDebut">Debut de l'enchère*</label>

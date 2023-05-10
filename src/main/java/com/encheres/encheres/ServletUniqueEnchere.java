@@ -25,6 +25,8 @@ public class ServletUniqueEnchere extends HttpServlet {
     private Users encherisseur = null;
     private RetraitBLL Retraitbll;
     private Retrait retrait;
+    private ImageBLL imageBLL;
+    private Image image;
     @Override
     public void init() throws ServletException {
 
@@ -33,7 +35,7 @@ public class ServletUniqueEnchere extends HttpServlet {
         Userbll = new UserBLL();
         Categoriebll = new CategorieBLL();
         Retraitbll = new RetraitBLL();
-
+        imageBLL = new ImageBLL();
     }
 
     @Override
@@ -64,6 +66,7 @@ public class ServletUniqueEnchere extends HttpServlet {
         } catch (BLLException e) {
             throw new RuntimeException(e);
         }
+
         if(enchere!=null){
             try {
                 encherisseur = Userbll.SelectById(enchere.getNo_utilisateur());
@@ -71,13 +74,18 @@ public class ServletUniqueEnchere extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
-
+        try {
+            image = imageBLL.selectById(article.getNo_article());
+        } catch (BLLException e) {
+            throw new RuntimeException(e);
+        }
         req.setAttribute("article", article);
         req.setAttribute("enchere", enchere);
         req.setAttribute("categorie", categorie);
         req.setAttribute("vendeur", vendeur);
         req.setAttribute("retrait", retrait);
         req.setAttribute("encherisseur", encherisseur);
+        req.setAttribute("image", image);
         req.getRequestDispatcher("/WEB-INF/Enchere.jsp").forward(req, resp);
     }
 

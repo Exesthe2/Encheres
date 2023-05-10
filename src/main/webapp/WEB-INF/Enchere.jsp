@@ -23,6 +23,9 @@
 <%@include file="Header.jsp"%>
 
 <h1>Details vente</h1>
+<c:if test="${'' != image.getImage()}">
+    <img src="${pageContext.request.contextPath}/uploads/${image.getImage()}" alt="${article.getNom()}" />
+</c:if>
 <table>
     <tbody>
     <tr>

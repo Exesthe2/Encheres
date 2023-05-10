@@ -1,12 +1,12 @@
 <%@ page import="java.util.List" %>
-<%@ page import="dal.ImageDAO" %>
 <%@ page import="bo.Image" %>
 <%@ page import="bo.Article" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<% List<Image> images = (List<Image>) request.getAttribute("images");
+<%
+    List<Image> images = (List<Image>) request.getAttribute("images");
     List<Article> articles = (List<Article>) request.getAttribute("articles");
 %>
 <html>

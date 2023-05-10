@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class EnchereJdbcImpl implements EnchereDAO {
 
     private static final String SELECTBYID = "SELECT * FROM ENCHERES WHERE no_enchere = ?;";
-    private static final String SELECTBYARTICLEID = "SELECT * FROM ENCHERES WHERE no_article = ? ORDER BY montant_enchere DESC  limit 1;";
+    private static final String SELECTBYARTICLEID = "SELECT * FROM ENCHERES WHERE no_article = ? ORDER BY montant_enchere;";
     private static final String SELECTDERNIEREENCHERE = "SELECT no_utilisateur, montant_enchere FROM ENCHERES WHERE no_article = ? and montant_enchere = (SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ? GROUP BY no_article)";
     private static final String SELECTCREDITFORDUSER ="SELECT credit FROM utilisateurs WHERE no_utilisateur = ?;";
     private static final String REMBOURSEMENT = "UPDATE utilisateurs SET  credit = ? WHERE no_utilisateur = ? and credit = ?;";

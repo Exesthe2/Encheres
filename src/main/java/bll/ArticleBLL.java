@@ -81,57 +81,55 @@ public class ArticleBLL {
         request.setAttribute("isConnected", isConnected);
         Users user = (Users) session.getAttribute("user");
 
-
         List<Article> articles = null;
 
+        articles = dao.getAllArticlesInProgress(articleName, categorie);
 
-        if (isConnected == null) {
-            articles = dao.getAllArticlesInProgress(articleName, categorie);
-        } else if (isConnected != null) {
-            String radioButton = request.getParameter("buyOrSell");
-
-            if (radioButton == null || radioButton.equals("buy")) {
-                //Connecté
-                String myAuctionsWin = request.getParameter("myAuctionsWin");
-                String openAuctions = request.getParameter("openAuctions");
-                String closeAuctions = "VD";
-                String createAuctions = "CR";
-                if (openAuctions == null) {
-                    openAuctions = "EC";
-                } else if (openAuctions.equals("EC")) {
-                    closeAuctions = "";
-                    createAuctions = "";
-                }
-                if (myAuctionsWin != null) {
-                    openAuctions = "";
-                    closeAuctions = "VD";
-                    createAuctions = "";
-                }
-
-                String myAuctions = request.getParameter("myAuctions");
-                if (myAuctions != null || myAuctionsWin != null) {
-                    myAuctions = String.valueOf(user.getNo_utilisateur());
-                }
-
-                // Call methode pour utilisateur connecté.
-                articles = dao.getAllArticlesWithConnectedFilters(articleName, categorie, openAuctions, closeAuctions, createAuctions, myAuctions, myAuctionsWin);
-            } else if (radioButton.equals("sell")) {
-
-                String myCurrentSales = request.getParameter("myCurrentSales");
-                String mySalesNotStart = request.getParameter("mySalesNotStart");
-                String mySalesEnd = request.getParameter("mySalesEnd");
-
-                if (myCurrentSales == null) {
-                    myCurrentSales = "";
-                }
-                if (mySalesNotStart == null) {
-                    mySalesNotStart = "";
-                }
-                if (mySalesEnd == null) {
-                    mySalesEnd = "";
-                }
-                articles = dao.getAllArticlesForConnectedUser(articleName, categorie, user.getNo_utilisateur(), myCurrentSales, mySalesNotStart, mySalesEnd);
-            }
+        if (isConnected != null) {
+//            String radioButton = request.getParameter("buyOrSell");
+//
+//            if (radioButton == null || radioButton.equals("buy")) {
+//                //Connecté
+//                String myAuctionsWin = request.getParameter("myAuctionsWin");
+//                String openAuctions = request.getParameter("openAuctions");
+//                String closeAuctions = "VD";
+//                String createAuctions = "CR";
+//                if (openAuctions == null) {
+//                    openAuctions = "EC";
+//                } else if (openAuctions.equals("EC")) {
+//                    closeAuctions = "";
+//                    createAuctions = "";
+//                }
+//                if (myAuctionsWin != null) {
+//                    openAuctions = "";
+//                    closeAuctions = "VD";
+//                    createAuctions = "";
+//                }
+//
+//                String myAuctions = request.getParameter("myAuctions");
+//                if (myAuctions != null || myAuctionsWin != null) {
+//                    myAuctions = String.valueOf(user.getNo_utilisateur());
+//                }
+//
+//                // Call methode pour utilisateur connecté.
+//                articles = dao.getArticleBuyFilters(articleName, categorie, openAuctions, closeAuctions, createAuctions, myAuctions, myAuctionsWin);
+//            } else if (radioButton.equals("sell")) {
+//
+//                String myCurrentSales = request.getParameter("myCurrentSales");
+//                String mySalesNotStart = request.getParameter("mySalesNotStart");
+//                String mySalesEnd = request.getParameter("mySalesEnd");
+//
+//                if (myCurrentSales == null) {
+//                    myCurrentSales = "";
+//                }
+//                if (mySalesNotStart == null) {
+//                    mySalesNotStart = "";
+//                }
+//                if (mySalesEnd == null) {
+//                    mySalesEnd = "";
+//                }
+//                articles = dao.getArticleSellFilters(articleName, categorie, user.getNo_utilisateur(), myCurrentSales, mySalesNotStart, mySalesEnd);
+//            }
         }
         return articles;
     }

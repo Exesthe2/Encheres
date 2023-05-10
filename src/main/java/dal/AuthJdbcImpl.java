@@ -237,14 +237,12 @@ public class AuthJdbcImpl implements AuthDAO {
             t.scheduleAtFixedRate(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("Set Timer");
 
                     try (Connection cnx = ConnectionProvider.getConnection();) {
                         PreparedStatement ps = cnx.prepareStatement(updateArticleProcedure);
                         ps.executeUpdate();
                         ResultSet rs = ps.executeQuery();
 
-                        System.out.println("rs " + rs);
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }

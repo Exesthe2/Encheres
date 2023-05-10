@@ -29,8 +29,11 @@
 
 <h1>Details vente</h1>
 <%if(erreur != null){ %>
-<p><%=erreur%></p>
+  <p><%=erreur%></p>
 <%}%>
+<c:if test="${'' != image.getImage()}">
+    <img src="${pageContext.request.contextPath}/uploads/${image.getImage()}" alt="${article.getNom()}" />
+</c:if>
 <table>
     <tbody>
     <tr>

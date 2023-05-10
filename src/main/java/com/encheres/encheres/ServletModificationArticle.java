@@ -42,7 +42,7 @@ public class ServletModificationArticle extends HttpServlet {
             throw new RuntimeException(e);
         }
         try {
-            imageBLL.selectById(id);
+            image = imageBLL.selectById(id);
         } catch (BLLException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +64,6 @@ public class ServletModificationArticle extends HttpServlet {
             error = true;
             request.setAttribute("error", e.getMessage());
         }
-        System.out.println(error);
 
         if (error) {
             doGet(request, response);

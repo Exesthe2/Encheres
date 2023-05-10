@@ -3,12 +3,15 @@ package dal;
 import bo.Image;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ImageJdbcImpl implements ImageDAO {
 
     private static final String INSERT = "INSERT INTO IMAGES (no_article, image) VALUES (?,?);";
     private static final String UPDATE = "UPDATE IMAGES SET image=? WHERE no_article=?;";
     private static final String SELECTBYID = "SELECT * FROM IMAGES WHERE no_article=?";
+    private static final String SELECT_ALL = "SELECT * FROM IMAGES;";
     @Override
     public void insert(Image image) {
         try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -54,6 +57,24 @@ public class ImageJdbcImpl implements ImageDAO {
             e.printStackTrace();
         }
         return image;
+    }
+
+    @Override
+    public List<Image> selectAll() {
+        List<Image> resultat = new ArrayList<>();
+        try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement ps = cnx.prepareStatement(SELECT_ALL);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Image image = new Image();
+                image.setNo_article(rs.getInt("no_article"));
+                image.setImage(rs.getString("image"));
+                resultat.add(image);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultat;
     }
 
 

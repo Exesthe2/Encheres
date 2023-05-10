@@ -27,7 +27,22 @@
             </c:forEach>
         </select>
         <label for="pictureFile">Photo</label>
-        <input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg"/>
+        <input type="file" id="pictureFile" name="pictureFile" accept="image/png, image/jpeg" onchange="PreviewImage()"/>
+        Preview de la nouvelle image <img id="uploadPreview" style="width: 100px; height: 100px;"/>
+        <script type="text/javascript">
+            function PreviewImage() {
+                var test;
+                var oFReader = new FileReader();
+                oFReader.readAsDataURL(document.getElementById("pictureFile").files[0]);
+
+                oFReader.onload = function (oFREvent) {
+                    test = document.getElementById("uploadPreview").src = oFREvent.target.result;
+                    test.value = "image"
+                    console.log(test)
+                };
+            };
+        </script>
+
         <label for="prixInital">Mise à prix</label>
         <input type="number" min="0" name="prixInitial" id="prixInital">
         <label for="dateDebut">Debut de l'enchère*</label>

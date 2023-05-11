@@ -13,8 +13,8 @@
 		<p>${error}</p>
 	</c:if>
 </div>
-<div>
-	<form action="<%= request.getContextPath() %>/ServletLogin" method="post">
+<div class="authDiv">
+	<form action="<%= request.getContextPath() %>/ServletLogin" method="post" class="authForm">
 		<label>Email ou Pseudo</label>
 		<input type="text" name="emailOrPseudo" required>
 

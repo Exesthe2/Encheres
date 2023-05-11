@@ -19,6 +19,14 @@ public class Article {
     public Article() {
     }
 
+    public Article(int no_article, String nom, LocalDateTime dateFin, Integer prixInitial, int no_utilisateur) {
+        this.no_article = no_article;
+        this.nom = nom;
+        this.dateFin = dateFin;
+        this.prixInitial = prixInitial;
+        this.no_utilisateur = no_utilisateur;
+    }
+
     public Article(int no_article, String nom, String description, LocalDateTime dateDebut, LocalDateTime dateFin, Integer prixInitial, Integer prixVente, int no_utilisateur, int no_categorie, String etatVente, Enchere enchere) {
         this.no_article = no_article;
         this.nom = nom;

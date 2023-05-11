@@ -8,10 +8,11 @@ import java.util.List;
 public interface ArticleDAO {
 
     List<Article> getAllArticlesInProgress(String articleName, String categorie);
-
-    List<Article> getAllArticlesWithConnectedFilters(String articleName, String categorie, String openAuctions, String closeAuctions, String createAuctions, String myAuctions, String myAuctionsWin);
-
-    List<Article> getAllArticlesForConnectedUser(String articleName, String categorie, int no_utilisateur, String myCurrentSales, String mySalesNotStart, String mySalesEnd);
+    List<Article> getMyArticle(String articleName, String categorie, int id);
+    List<Article> getMyWonArticle(String articleName, String categorie, int id);
+    List<Article> getMyCurrentSell(String articleName, String categorie, int id);
+    List<Article> getMySellNotStarted(String articleName, String categorie, int id);
+    List<Article> getMySellEnded(String articleName, String categorie, int id);
 
     void insert(Article article);
 

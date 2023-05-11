@@ -15,7 +15,7 @@ public class EnchereJdbcImpl implements EnchereDAO {
     private static final String SELECTDERNIEREENCHERE = "SELECT no_utilisateur, montant_enchere FROM ENCHERES WHERE no_article = ? and montant_enchere = (SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ? GROUP BY no_article)";
     private static final String SELECTCREDITFORDUSER ="SELECT credit FROM utilisateurs WHERE no_utilisateur = ?;";
     private static final String REMBOURSEMENT = "UPDATE utilisateurs SET  credit = ? WHERE no_utilisateur = ? and credit = ?;";
-    private static final String NEWENCHERE = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (?, ?, NOW(), ?);";
+    private static final String NEWENCHERE = "INSERT INTO encheres (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES (?, ?, GETDATE(), ?);";
     private static final String PAYERENCHERE =" UPDATE utilisateurs SET credit = ? WHERE no_utilisateur = ? and credit = ?;";
 
     @Override

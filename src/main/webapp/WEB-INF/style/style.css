@@ -60,14 +60,18 @@ body {
     background-color: floralwhite;
 }
 
+/**************SELL**************/
 .sellArticleForm {
     display: flex;
     flex-direction: column;
+    align-items: center;
+
 }
 
 .globalForm {
     display: flex;
     flex-direction: row;
+
 }
 
 .sellArticleForm input {
@@ -77,4 +81,9 @@ body {
 .firstColumn, .secondColumn {
     display: flex;
     flex-direction: column;
+}
+
+.sellButton {
+    margin: auto;
+    margin-top: 30px;
 }

@@ -69,7 +69,7 @@
             </div>
         </div>
     </div>
-    <input type="submit" value="Enregistrer">
+    <input type="submit" value="Enregistrer" class="sellButton">
 </form>
 <c:if test="${!empty error}">
     <p>${error}</p>

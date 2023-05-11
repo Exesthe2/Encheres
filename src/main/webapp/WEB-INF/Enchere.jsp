@@ -57,6 +57,7 @@
 <table class="enchereTable">
     <tbody>
     <tr>
+        <th>Nom :</th>
         <th><%=article.getNom()%>
         </th>
     </tr>

@@ -42,7 +42,7 @@
                             <label for="openAuctions">Enchères ouvertes</label>
 
                             <input type="checkbox" name="myAuctions" id="myAuctions" value="1">
-                            <label for="myAuctions">Mes enchères</label>
+                            <label for="myAuctions">Mes enchères en cours</label>
 
                             <input type="checkbox" name="myAuctionsWin" id="myAuctionsWin" value="1">
                             <label for="myAuctionsWin">Mes enchères remportées</label>

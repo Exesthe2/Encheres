@@ -37,7 +37,8 @@
             <div>
                 <ul>
                     <li>
-                        <p>Achats :</p>
+                        <label>Achats :</label>
+                        <input type="radio" name="buyOrSell" value="buy">
                         <div>
                             <input type="checkbox" name="openAuctions" id="openAuctions" value="EC">
                             <label for="openAuctions">Enchères ouvertes</label>
@@ -50,7 +51,8 @@
                         </div>
                     </li>
                     <li>
-                        <p>Ventes :</p>
+                        <label>Ventes :</label>
+                        <input type="radio" name="buyOrSell" value="sell">
                         <div>
                             <input type="checkbox" name="myCurrentSales" id="myCurrentSales" value="EC">
                             <label for="myCurrentSales">Mes ventes en cours</label>

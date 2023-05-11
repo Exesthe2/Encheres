@@ -35,10 +35,8 @@ public class ServletAccueil extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println();
         try {
             articles = articleBLL.getAllArticlesWithFilters(request);
-            System.out.println(articles);
         } catch (BLLException e) {
             throw new RuntimeException(e);
         }

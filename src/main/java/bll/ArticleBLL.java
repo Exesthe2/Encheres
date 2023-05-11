@@ -86,50 +86,33 @@ public class ArticleBLL {
         articles = dao.getAllArticlesInProgress(articleName, categorie);
 
         if (isConnected != null) {
-//            String radioButton = request.getParameter("buyOrSell");
-//
-//            if (radioButton == null || radioButton.equals("buy")) {
-//                //Connecté
-//                String myAuctionsWin = request.getParameter("myAuctionsWin");
-//                String openAuctions = request.getParameter("openAuctions");
-//                String closeAuctions = "VD";
-//                String createAuctions = "CR";
-//                if (openAuctions == null) {
-//                    openAuctions = "EC";
-//                } else if (openAuctions.equals("EC")) {
-//                    closeAuctions = "";
-//                    createAuctions = "";
-//                }
-//                if (myAuctionsWin != null) {
-//                    openAuctions = "";
-//                    closeAuctions = "VD";
-//                    createAuctions = "";
-//                }
-//
-//                String myAuctions = request.getParameter("myAuctions");
-//                if (myAuctions != null || myAuctionsWin != null) {
-//                    myAuctions = String.valueOf(user.getNo_utilisateur());
-//                }
-//
-//                // Call methode pour utilisateur connecté.
-//                articles = dao.getArticleBuyFilters(articleName, categorie, openAuctions, closeAuctions, createAuctions, myAuctions, myAuctionsWin);
-//            } else if (radioButton.equals("sell")) {
-//
-//                String myCurrentSales = request.getParameter("myCurrentSales");
-//                String mySalesNotStart = request.getParameter("mySalesNotStart");
-//                String mySalesEnd = request.getParameter("mySalesEnd");
-//
-//                if (myCurrentSales == null) {
-//                    myCurrentSales = "";
-//                }
-//                if (mySalesNotStart == null) {
-//                    mySalesNotStart = "";
-//                }
-//                if (mySalesEnd == null) {
-//                    mySalesEnd = "";
-//                }
-//                articles = dao.getArticleSellFilters(articleName, categorie, user.getNo_utilisateur(), myCurrentSales, mySalesNotStart, mySalesEnd);
-//            }
+            String radioButton = request.getParameter("buyOrSell");
+
+            if (("buy").equals(radioButton)) {
+                String openAuctions = request.getParameter("openAuctions");
+                String myAuctions = request.getParameter("myAuctions");
+                String myAuctionsWin = request.getParameter("myAuctionsWin");
+
+                if (openAuctions != null) {
+                    articles = dao.getAllArticlesInProgress(articleName, categorie);
+                } else if (myAuctions != null) {
+                    articles = dao.getMyArticle(articleName, categorie, user.getNo_utilisateur());
+                } else if (myAuctionsWin != null) {
+                    articles = dao.getMyWonArticle(articleName, categorie, user.getNo_utilisateur());
+                }
+            } else if (("sell").equals(radioButton)) {
+                String myCurrentSales = request.getParameter("myCurrentSales");
+                String mySalesNotStart = request.getParameter("mySalesNotStart");
+                String mySalesEnd = request.getParameter("mySalesEnd");
+
+                if (myCurrentSales != null) {
+                    articles = dao.getMyCurrentSell(articleName, categorie, user.getNo_utilisateur());
+                } else if (mySalesNotStart != null) {
+                    articles = dao.getMySellNotStarted(articleName, categorie, user.getNo_utilisateur());
+                } else if (mySalesEnd != null) {
+                    articles = dao.getMySellEnded(articleName, categorie, user.getNo_utilisateur());
+                }
+            }
         }
         return articles;
     }

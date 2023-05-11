@@ -20,16 +20,12 @@ public class ArticleJdbcImpl implements ArticleDAO {
     private static final String SELECTBYID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?;";
     private static final String CANMODIFY = "SELECT no_utilisateur FROM ARTICLES_VENDUS WHERE no_article=?;";
     private static final String GETALLARTICLESINPROGRESS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND etat_vente = 'EC';";
-    private static final String GETMYARTICLE = "SELECT article.no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, article.no_utilisateur, no_categorie, etat_vente FROM ARTICLES_VENDUS article_vendu INNER JOIN ENCHERES encheres ON article_vendu.no_article = encheres.no_article WHERE (nom_article LIKE ? and no_categorie like ?) AND encheres.no_utilisateur = ? AND etat_vente = 'EC';";
-    private static final String GETMONTANTMAXBYARTICLE = "SELECt MAX(montant_enchere) as montant, no_article FROM encheres group by no_article;";
-    private static final String GETMYWONARTICLE = "SELECT * from ENCHERES e inner join ARTICLES_VENDUS av on e.no_article = av.no_article where e.no_article = ? and montant_enchere = ? and e.no_utilisateur = ? and av.etat_vente in ('VD', 'RT')";
+    private static final String GETMYARTICLE = "SELECT article_vendu.no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, article_vendu.no_utilisateur, no_categorie, etat_vente FROM ARTICLES_VENDUS article_vendu INNER JOIN ENCHERES encheres ON article_vendu.no_article = encheres.no_article WHERE (nom_article LIKE ? and no_categorie like ?) AND encheres.no_utilisateur = ? AND etat_vente = 'EC';";
+    private static final String GETMONTANTMAXBYARTICLE = "SELECT MAX(montant_enchere) AS montant, no_article FROM ENCHERES GROUP BY no_article;";
+    private static final String GETMYWONARTICLE = "SELECT article_vendu.no_article, nom_article, description, date_debut_enchere, date_fin_enchere, prix_initial, prix_vente, article_vendu.no_utilisateur, no_categorie, etat_vente FROM ENCHERES enchere INNER JOIN ARTICLES_VENDUS article_vendu ON enchere.no_article = article_vendu.no_article WHERE (article_vendu.nom_article LIKE ? and article_vendu.no_categorie like ?) AND enchere.no_article = ? AND montant_enchere = ? AND enchere.no_utilisateur = ? AND article_vendu.etat_vente IN ('VD', 'RT');";
     private static final String GETMYCURRENTSELL = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND no_utilisateur = ? AND etat_vente = 'EC';";
     private static final String GETMYSELLNOTSTARTED = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND no_utilisateur = ? AND etat_vente = 'CR';";
     private static final String GETMYSELLENDED = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND no_utilisateur = ? AND etat_vente IN ('VD', 'RT');";
-//    private static final String GETALLARTICLEWITHFILTERS = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ?) AND etat_vente IN ('CR', 'EC', 'VD', 'RT');";
-//    private static final String GETENCHEREBYUSERIDANDARTICLEID = "SELECT no_enchere, no_utilisateur, no_article, date_enchere, MAX(montant_enchere) FROM ENCHERES WHERE no_article = ? AND no_utilisateur = ? group by no_enchere;";
-//    private static final String ARTICLEBYUSERIDANDSTATE = "SELECT * FROM ARTICLES_VENDUS WHERE (nom_article LIKE ? and no_categorie like ? and no_utilisateur = ?) AND etat_vente IN (?, ?, ?);";
-//    private static final String ENCHEREBYARTICLEID = "SELECT no_enchere, no_utilisateur, no_article, date_enchere, MAX(montant_enchere) FROM ENCHERES WHERE no_article = ? group by no_enchere;";
 
     private List<Article> articles;
     @Override
@@ -80,21 +76,23 @@ public class ArticleJdbcImpl implements ArticleDAO {
                 montantMax.add(rs.getInt("montant"));
                 idArticle.add(rs.getInt("no_article"));
             }
-            getArticles(articles, ps);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement ps = cnx.prepareStatement(GETMYWONARTICLE);
-
-
-            getArticles(articles, ps);
+            for (int i = 0; i < montantMax.size(); i++) {
+                ps.setString(1, "%" + articleName + "%");
+                ps.setString(2, "%" + categorie + "%");
+                ps.setInt(3, idArticle.get(i));
+                ps.setInt(4, montantMax.get(i));
+                ps.setInt(5, id);
+                getArticles(articles, ps);
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
-
         return articles;
     }
 
@@ -150,112 +148,6 @@ public class ArticleJdbcImpl implements ArticleDAO {
         }
 
         return articles;
-    }
-
-    public List<Article> getArticleBuyFilters(String articleName, String categorie, String openAuctions, String closeAuctions, String createAuctions, String myAuctions, String myAuctionsWin) {
-        List<Article> articles = new ArrayList<>();
-//
-//        try (Connection cnx = ConnectionProvider.getConnection()) {
-//            PreparedStatement ps = cnx.prepareStatement(GETALLARTICLEWITHFILTERS);
-//            ps.setString(1, "%" + articleName + "%");
-//            ps.setString(2, "%" + categorie + "%");
-//
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {
-//                int no_article = rs.getInt("no_article");
-//                if (myAuctions != null || myAuctionsWin != null) {
-//                    try (Connection cnx2 = ConnectionProvider.getConnection()) {
-//                        PreparedStatement ps2 = cnx2.prepareStatement(GETENCHEREBYUSERIDANDARTICLEID);
-//                        ps2.setInt(1, no_article);
-//                        ps2.setInt(2, Integer.parseInt(myAuctions));
-//
-//                        ResultSet rs2 = ps2.executeQuery();
-//                        if (rs2.next()) {
-//                            while (rs2.next()) {
-//                                enchere = new Enchere(
-//                                        rs2.getInt("no_enchere"),
-//                                        rs2.getInt("no_utilisateur"),
-//                                        rs2.getInt("no_article"),
-//                                        LocalDateTime.of((rs2.getDate("date_enchere").toLocalDate()), rs2.getTime("date_enchere").toLocalTime()),
-//                                        rs2.getInt("MAX(montant_enchere)")
-//                                );
-//                            }
-//                        }
-//                    }
-//                }
-//                Article article = new Article(
-//                        rs.getInt("no_article"),
-//                        rs.getString("nom_article"),
-//                        rs.getString("description"),
-//                        LocalDateTime.of((rs.getDate("date_debut_enchere").toLocalDate()), rs.getTime("date_debut_enchere").toLocalTime()),
-//                        LocalDateTime.of((rs.getDate("date_fin_enchere").toLocalDate()), rs.getTime("date_fin_enchere").toLocalTime()),
-//                        rs.getInt("prix_initial"),
-//                        rs.getInt("prix_vente"),
-//                        rs.getInt("no_utilisateur"),
-//                        rs.getInt("no_categorie"),
-//                        rs.getString("etat_vente"));
-//                article.setEnchere(enchere);
-//                articles.add(article);
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-        return articles;
-    }
-
-
-    public List<Article> getArticleSellFilters(String articleName, String categorie, int no_utilisateur, String myCurrentSales, String mySalesNotStart, String mySalesEnd) {
-        List<Article> articles = new ArrayList<>();
-
-//        try (Connection cnx = ConnectionProvider.getConnection()) {
-//            PreparedStatement ps = cnx.prepareStatement(ARTICLEBYUSERIDANDSTATE);
-//            ps.setString(1, "%" + articleName + "%");
-//            ps.setString(2, "%" + categorie + "%");
-//            ps.setInt(3, no_utilisateur);
-//            ps.setString(4, myCurrentSales);
-//            ps.setString(5, mySalesNotStart);
-//            ps.setString(6, mySalesEnd);
-//
-//            ResultSet rs = ps.executeQuery();
-//            while (rs.next()) {
-//                int no_article = rs.getInt("no_article");
-//                try (Connection cnx2 = ConnectionProvider.getConnection()) {
-//                    PreparedStatement ps2 = cnx2.prepareStatement(ENCHEREBYARTICLEID);
-//                    ps2.setInt(1, no_article);
-//
-//                    ResultSet rs2 = ps2.executeQuery();
-//                    if (rs2.next()) {
-//                        while (rs2.next()) {
-//                            enchere = new Enchere(
-//                                    rs2.getInt("no_enchere"),
-//                                    rs2.getInt("no_utilisateur"),
-//                                    rs2.getInt("no_article"),
-//                                    LocalDateTime.of((rs2.getDate("date_enchere").toLocalDate()), rs2.getTime("date_enchere").toLocalTime()),
-//                                    rs2.getInt("MAX(montant_enchere)")
-//                            );
-//                        }
-//                        Article article = new Article(
-//                                rs.getInt("no_article"),
-//                                rs.getString("nom_article"),
-//                                rs.getString("description"),
-//                                LocalDateTime.of((rs.getDate("date_debut_enchere").toLocalDate()), rs.getTime("date_debut_enchere").toLocalTime()),
-//                                LocalDateTime.of((rs.getDate("date_fin_enchere").toLocalDate()), rs.getTime("date_fin_enchere").toLocalTime()),
-//                                rs.getInt("prix_initial"),
-//                                rs.getInt("prix_vente"),
-//                                rs.getInt("no_utilisateur"),
-//                                rs.getInt("no_categorie"),
-//                                rs.getString("etat_vente")
-//                        );
-//                        article.setEnchere(enchere);
-//                        articles.add(article);
-//                    }
-//                }
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-        return articles;
-
     }
 
     @Override
@@ -354,6 +246,7 @@ public class ArticleJdbcImpl implements ArticleDAO {
 
     private void getArticles(List<Article> articles, PreparedStatement ps) throws SQLException {
         ResultSet rs = ps.executeQuery();
+
         while (rs.next()) {
             Article article = new Article(
                     rs.getInt("no_article"),

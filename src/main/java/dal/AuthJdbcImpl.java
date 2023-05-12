@@ -23,7 +23,7 @@ public class AuthJdbcImpl implements AuthDAO {
     private static final String GETALLPSEUDOS = "SELECT pseudo, email FROM UTILISATEURS;";
     private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe,credit, administrateur) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private static final String SELECTPORTEFEUILLE = "SELECT credit FROM UTILISATEURS WHERE no_utilisateur = ?;";
-    private static final String updateArticleProcedure = "CALL updateArticle();";
+    private static final String updateArticleProcedure = "EXEC updateArticle;";
 
 
     @Override

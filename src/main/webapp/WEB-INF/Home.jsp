@@ -31,8 +31,8 @@
         </div>
 
         <c:if test="${isConnected == true}">
-            <p>Filtres :</p>
             <div>
+                <p>Filtres :</p>
                 <ul>
                     <li>
                         <label>Achats :</label>
@@ -42,7 +42,7 @@
                             <label for="openAuctions">Enchères ouvertes</label>
 
                             <input type="checkbox" name="myAuctions" id="myAuctions" value="1">
-                            <label for="myAuctions">Mes enchères</label>
+                            <label for="myAuctions">Mes enchères en cours</label>
 
                             <input type="checkbox" name="myAuctionsWin" id="myAuctionsWin" value="1">
                             <label for="myAuctionsWin">Mes enchères remportées</label>
@@ -74,7 +74,7 @@
         <div class="card">
             <div class="productInfos">
                 <c:if test="${'' != images.get(article.no_article - 1).getImage() }">
-                    <img src="${pageContext.request.contextPath}/uploads/${images.get(article.no_article - 1).getImage()}" alt="${article.nom}" />
+                    <img src="${pageContext.request.contextPath}/uploads/${images.get(article.no_article - 1).getImage()}" alt="${article.nom}" class="image"/>
                 </c:if>
                 <a href="<%=request.getContextPath() %>/ServletUniqueEnchere?id=${article.no_article}">
                     <h3 class="productTitle">${article.nom}</h3>

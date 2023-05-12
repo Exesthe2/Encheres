@@ -7,13 +7,13 @@
 </head>
 <body>
 <%@include file="Header.jsp" %>
-<h1>Mon Profil</h1>
+<h1 class="title">Modifier mon profil</h1>
 <div class="error">
     <c:if test="${!empty errorMessage}">
     <p>${errorMessage}</p>
     </c:if>
 </div>
-<form  action="<%= request.getContextPath() %>/ServletUpdateProfile" method="post">
+<form  action="<%= request.getContextPath() %>/ServletUpdateProfile" method="post" class="updateProfile">
   <table>
       <tbody>
       <tr>

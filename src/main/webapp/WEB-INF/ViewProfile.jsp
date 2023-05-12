@@ -11,9 +11,9 @@
 </head>
 
 <%@include file="Header.jsp" %>
-
 <body>
-<div>
+<div class="profile">
+<div class="profileCenter">
     <%
         if (otherUser == null) {
             user = (Users) session.getAttribute("user");
@@ -42,7 +42,7 @@
             }
         }
     %>
-
+</div>
 </div>
 </body>
 </html>

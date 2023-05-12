@@ -102,9 +102,7 @@ public class ServletUniqueEnchere extends HttpServlet {
 
                 try {
                     if (Userbll.verifSomme(user.getNo_utilisateur(), montant)) {
-                        System.out.println("verifSomme");
                         credit = Encherebll.makeEnchere(user.getNo_utilisateur(), no_article, montant);
-                        System.out.println("makeEnchere");
                         user.setCredit(credit);
                         req.getSession().setAttribute("user", user);
                         resp.sendRedirect(req.getContextPath() + "/ServletUniqueEnchere?id=" + no_article);

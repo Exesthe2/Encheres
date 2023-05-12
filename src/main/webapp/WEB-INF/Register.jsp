@@ -17,39 +17,41 @@
 <c:if test="${!empty error}">
 	<p>${error}</p>
 </c:if>
-<form action="<%= request.getContextPath() %>/ServletRegister" method="post">
-	<label>Pseudo</label>
-	<input type="text" name="pseudo" required>
+<div class="authDiv">
+	<form action="<%= request.getContextPath() %>/ServletRegister" method="post" class="authForm">
+		<label>Pseudo</label>
+		<input type="text" name="pseudo" required>
 
-	<label>Prénom</label>
-	<input type="text" name="firstname" required>
+		<label>Prénom</label>
+		<input type="text" name="firstname" required>
 
-	<label>Nom</label>
-	<input type="text" name="lastname" required>
+		<label>Nom</label>
+		<input type="text" name="lastname" required>
 
-	<label>Téléphone</label>
-	<input type="text" name="phoneNumber" required>
+		<label>Téléphone</label>
+		<input type="text" name="phoneNumber" required>
 
-	<label>Code postal</label>
-	<input type="text" name="postalCode" required>
+		<label>Code postal</label>
+		<input type="text" name="postalCode" required>
 
-	<label>Rue</label>
-	<input type="text" name="street" required>
+		<label>Rue</label>
+		<input type="text" name="street" required>
 
-	<label>Ville</label>
-	<input type="text" name="town" required>
+		<label>Ville</label>
+		<input type="text" name="town" required>
 
-	<label>Email</label>
-	<input type="text" name="email" required>
+		<label>Email</label>
+		<input type="text" name="email" required>
 
-	<label>Mot de passe</label>
-	<input type="password" name="password" required>
+		<label>Mot de passe</label>
+		<input type="password" name="password" required>
 
-	<label>Confirmer votre mot de passe</label>
-	<input type="password" name="confirmPassword" required>
+		<label>Confirmer votre mot de passe</label>
+		<input type="password" name="confirmPassword" required>
 
-	<button type="submit">Créer</button>
-</form>
-<a href="<%=request.getContextPath()%>/ServletLogin">Annuler</a>
+		<button type="submit">Créer</button>
+	</form>
+	<a href="<%=request.getContextPath()%>/ServletLogin">Annuler</a>
+</div>
 </body>
 </html>

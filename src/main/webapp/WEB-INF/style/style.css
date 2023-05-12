@@ -10,6 +10,10 @@ body {
     text-decoration: none;
 }
 
+.title {
+    text-align: center;
+}
+
 /**************HEADER**************/
 .header {
     font-family: Arial;
@@ -40,7 +44,7 @@ body {
 .filter form {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 
 }
 
@@ -53,11 +57,19 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
-    border: black solid 2px;
-    background-color: floralwhite;
+    border: black solid 1px;
+    box-shadow: 3px 3px 3px gray;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+a h3 {
+    color: black;
 }
 
 /**************SELL**************/
@@ -81,9 +93,72 @@ body {
 .firstColumn, .secondColumn {
     display: flex;
     flex-direction: column;
+    margin: 20px;
 }
 
 .sellButton {
     margin: auto;
     margin-top: 30px;
+}
+
+/**************AUTH**************/
+.authForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.authDiv {
+    text-align: center;
+}
+
+.authDiv a {
+    color: black;
+}
+
+/**************PROFILE**************/
+.profile, .updateProfile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profileCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+/**************ARTICLE**************/
+.imageFormLabel {
+    display: flex;
+}
+
+.imageForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.enchereTable {
+    display: flex;
+    justify-content: center;
+}
+
+#modification {
+    display: flex;
+    justify-content: center;
+}
+
+/**************IMAGE**************/
+.image {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.imageEnchere {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }

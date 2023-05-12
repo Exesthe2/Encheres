@@ -178,8 +178,8 @@ public class ArticleJdbcImpl implements ArticleDAO {
             PreparedStatement ps = cnx.prepareStatement(UPDATE);
             ps.setString(1, article.getNom());
             ps.setString(2, article.getDescription());
-            ps.setDate(3, Date.valueOf(article.getDateDebut().toLocalDate()));
-            ps.setDate(4, Date.valueOf(article.getDateFin().toLocalDate()));
+            ps.setTimestamp(3, Timestamp.valueOf(article.getDateDebut()));
+            ps.setTimestamp(4, Timestamp.valueOf(article.getDateFin()));
             ps.setInt(5, article.getPrixInitial());
             ps.setInt(6, article.getNo_utilisateur());
             ps.setInt(7, article.getNo_categorie());
